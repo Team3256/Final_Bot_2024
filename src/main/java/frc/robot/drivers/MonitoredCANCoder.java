@@ -10,7 +10,6 @@ package frc.robot.drivers;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.utils.WBLogger;
 
 public class MonitoredCANCoder {
