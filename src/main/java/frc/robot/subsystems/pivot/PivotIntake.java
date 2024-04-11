@@ -52,7 +52,7 @@ public class PivotIntake extends SubsystemBase implements Loggable {
   }
 
   private void configureRealHardware() {
-    pivotMotor = new MonitoredTalonFX(PivotConstants.kPivotMotorID);
+    pivotMotor = MonitoredTalonFX.build(PivotConstants.kPivotMotorID);
     pivotMotor.setNeutralMode(NeutralModeValue.Brake);
 
     setMotorConfigs(

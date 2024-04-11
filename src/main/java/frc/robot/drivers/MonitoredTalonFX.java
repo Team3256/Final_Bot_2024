@@ -28,9 +28,28 @@ public class MonitoredTalonFX extends TalonFX {
     this.canDeviceBus = "rio"; // defaults to "rio" if not specified
   }
 
+  public static MonitoredTalonFX build(int canDeviceID) {
+    return (MonitoredTalonFX)
+        java.lang.reflect.Proxy.newProxyInstance(
+            frc.robot.drivers.MonitoredTalonFX.class.getClassLoader(),
+            new Class[] {frc.robot.drivers.MonitoredTalonFX.class},
+            new frc.robot.drivers.TalonFXProxyHandler(MonitoredTalonFX.build(canDeviceID)));
+  }
+  // A whole proxy is required because we're inheriting from TalonFX
+  // because we use a proxy, it's better to have these factory methods.
+  // We inherit from TalonFX because there's so many methods from the TalonFX class
+  // that we want to use that it's simpler to just inherit and build a proxy
+  public static MonitoredTalonFX build(int canDeviceID, String canDeviceBus) {
+    return (MonitoredTalonFX)
+        java.lang.reflect.Proxy.newProxyInstance(
+            frc.robot.drivers.MonitoredTalonFX.class.getClassLoader(),
+            new Class[] {frc.robot.drivers.MonitoredTalonFX.class},
+            new frc.robot.drivers.TalonFXProxyHandler(
+                MonitoredTalonFX.build(canDeviceID, canDeviceBus)));
+  }
   // Override all the methods that we use in TalonFX to monitor the status of the
-  // signals
-
+  // signals. Maybe in the future, we will implement a "make monitored" superclass
+  // or something (maybe a Proxy)
   @Override
   public StatusSignal<Double> getMotorVoltage() {
     return WBLogger.getInstance()

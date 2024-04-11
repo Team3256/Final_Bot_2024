@@ -79,9 +79,10 @@ public class Intake extends SubsystemBase implements Loggable {
 
   private void configureRealHardware() {
     intakeMotor =
-        new MonitoredTalonFX(IntakeConstants.kIntakeMotorID, "rio"); // don't want piece to fall out
+        MonitoredTalonFX.build(
+            IntakeConstants.kIntakeMotorID, "rio"); // don't want piece to fall out
 
-    passthroughMotor = new MonitoredTalonFX(IntakeConstants.kPassthroughMotorID, "rio");
+    passthroughMotor = MonitoredTalonFX.build(IntakeConstants.kPassthroughMotorID, "rio");
     passthroughMotor.setInverted(false);
     passthroughMotor.setNeutralMode(NeutralModeValue.Brake);
 

@@ -62,7 +62,7 @@ public class PivotShooter extends SubsystemBase implements Loggable {
   }
 
   private void configureRealHardware() {
-    pivotMotor = new MonitoredTalonFX(PivotingShooterConstants.kPivotMotorID);
+    pivotMotor = MonitoredTalonFX.build(PivotingShooterConstants.kPivotMotorID);
     pivotMotor.setNeutralMode(NeutralModeValue.Brake);
     pivotMotor.setInverted(true);
 

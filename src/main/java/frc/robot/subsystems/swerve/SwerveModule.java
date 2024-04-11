@@ -54,12 +54,12 @@ public class SwerveModule {
     angleEncoder.getConfigurator().apply(Robot.ctreConfigs.swerveCANcoderConfig);
     // configCANCoder();
     /* Angle Motor Config */
-    mAngleMotor = new MonitoredTalonFX(moduleConstants.angleMotorID, "mani");
+    mAngleMotor = MonitoredTalonFX.build(moduleConstants.angleMotorID, "mani");
     TalonUtil.applyAndCheckConfiguration(mAngleMotor, Robot.ctreConfigs.swerveAngleFXConfig);
     resetToAbsolute();
 
     /* Drive Motor Config */
-    mDriveMotor = new MonitoredTalonFX(moduleConstants.driveMotorID, "mani");
+    mDriveMotor = MonitoredTalonFX.build(moduleConstants.driveMotorID, "mani");
     TalonUtil.applyAndCheckConfiguration(mDriveMotor, Robot.ctreConfigs.swerveDriveFXConfig);
     mDriveMotor.getConfigurator().setPosition(0.0);
   }

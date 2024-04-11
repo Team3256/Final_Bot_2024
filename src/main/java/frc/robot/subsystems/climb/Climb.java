@@ -71,7 +71,7 @@ public class Climb extends SubsystemBase implements Loggable {
   }
 
   private void configureRealHardware() {
-    leftMotor = new MonitoredTalonFX(ClimbConstants.kLeftClimbMotorID, "rio");
+    leftMotor = MonitoredTalonFX.build(ClimbConstants.kLeftClimbMotorID, "rio");
     leftMotor.setNeutralMode(NeutralModeValue.Brake);
 
     setMotorConfigs(kS, kV, kP, kI, kD, enableStatorLimit, statorLimit);

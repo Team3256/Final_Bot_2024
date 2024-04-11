@@ -42,7 +42,7 @@ public class AmpBar extends SubsystemBase implements Loggable {
   }
 
   private void configureRealHardware() {
-    ampBarMotor = new MonitoredTalonFX(AmpBarConstants.kAmpBarMotorID);
+    ampBarMotor = MonitoredTalonFX.build(AmpBarConstants.kAmpBarMotorID);
     ampBarMotor.setNeutralMode(NeutralModeValue.Brake);
     setStatorLimits(true, 20);
   }
