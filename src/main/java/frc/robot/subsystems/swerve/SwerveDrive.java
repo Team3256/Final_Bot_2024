@@ -99,6 +99,7 @@ public class SwerveDrive extends SubsystemBase implements Loggable {
   public Pose2d simPose = new Pose2d();
 
   public SwerveDrive() {
+    /* logs stuff!!! */
     gyro = new MonitoredPigeon2(24, "mani");
     // gyro.getConfigurator().apply(new Pigeon2Configuration());
     var allianceBruh = DriverStation.getAlliance();
