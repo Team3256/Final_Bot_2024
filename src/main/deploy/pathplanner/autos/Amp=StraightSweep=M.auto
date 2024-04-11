@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.814210387680035,
-      "y": 6.649743882821099
+      "x": 16.064337387934035,
+      "y": 7.713021171412714
     },
-    "rotation": 120.0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "581 hit"
+            "pathName": "straight sweep"
           }
         }
       ]
     }
   },
-  "folder": "archive",
+  "folder": "Strategic",
   "choreoAuto": false
 }

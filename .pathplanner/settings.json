@@ -12,6 +12,11 @@
     "strategic"
   ],
   "autoFolders": [
+    "AmpSide",
+    "SourceSide",
+    "Speaker",
+    "Strategic",
+    "Test",
     "archive"
   ],
   "defaultMaxVel": 4.28,

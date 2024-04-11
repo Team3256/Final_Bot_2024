@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.238204285253078,
-      "y": 5.550936522700434
+      "x": 15.12,
+      "y": 1.4872762413142506
     },
-    "rotation": 180.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "preload only"
+            "pathName": "spinny sweep centerline"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Strategic",
   "choreoAuto": false
 }
