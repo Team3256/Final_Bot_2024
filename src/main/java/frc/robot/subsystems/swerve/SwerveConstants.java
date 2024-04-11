@@ -167,26 +167,37 @@ public final class SwerveConstants {
   public static final double openLoopRamp = 0.25;
   public static final double closedLoopRamp = 0.0;
   /* Swerve Profiling Values */
+
   public static final double maxTranslationalVelocity = 4.6; // TODO: Tune
+
+  /* 20% of max translational velocity */
   public static final double slowMaxTranslationalVelocity =
-      maxTranslationalVelocity * 0.2; // TODO: Tune
-  public static final double maxAngularVelocity = 6; // TODO: Tune
-  public static final double slowMaxAngularVelocity = maxAngularVelocity * 0.5; // TODO: Tune
+      maxTranslationalVelocity * 0.2;
+
+  public static final double maxAngularVelocity = 6;
+
+  /* 50% of mac angular velocity */
+  public static final double slowMaxAngularVelocity = maxAngularVelocity * 0.5;
+
   /* Neutral Modes */
   public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;
   public static final NeutralModeValue driveNeutralMode = NeutralModeValue.Brake;
+
+  /* Lucas tell them what this does */
   public static double crosshairAngleKP = 0.15;
   public static double crosshairAngleKI = 0;
   public static double crosshairAngleKD = 0.005;
   public static double crosshairTurnTolerance = 5;
   public static double crosshairTurnToleranceVel = 5;
 
+  /* PID constants for moving forward to the note as part of note detection */
   public static double translationNoteKP = 0.15;
   public static double translationNoteKI = 0;
   public static double translationNoteKD = 0.005;
   public static double translationNoteTolerance = 0;
   public static double translationNoteToleranceVel = 5;
 
+  /* PID constants for moving side to side while detecting the note in note detection */
   public static double strafeNoteKP = 0.15;
   public static double strafeNoteKI = 0;
   public static double strafeNoteKD = 0.005;
@@ -202,6 +213,12 @@ public final class SwerveConstants {
   }
 
   /* Module Specific Constants */
+
+  /*
+  * Each swerve module assigns an ID for each drive motors, steer motors, and canCoders
+  * also assigns the proper offset, so we don't drive the wrong way
+  */
+
   /* Front Left Module - Module 0 */
   public static final class Mod0 { // TODO: This must be tuned to specific robot
     public static final int driveMotorID = 1;
@@ -243,30 +260,31 @@ public final class SwerveConstants {
   }
 
   public static final class AzimuthConstants {
+
     // Quick assignments
-    private static final double meow = (1 / 2);
-    private static final double joshua = (Math.sqrt(3) / 2);
-    private static final double abraham = 0.0;
-    private static final double upputuri = 1.0;
+    private static final double half = (1 / 2);
+    private static final double rootThreeTwo = (Math.sqrt(3) / 2);
+    private static final double zero = 0.0;
+    private static final double one = 1.0;
 
     // AMP
-    public static final double ampXRed = upputuri;
-    public static final double ampXBlue = -upputuri;
-    public static final double ampY = abraham;
+    public static final double ampXRed = one;
+    public static final double ampXBlue = -one;
+    public static final double ampY = zero;
 
     // SPEAKER
-    public static final double subwooferFrontX = abraham;
-    public static final double subwooferLeftX = -meow;
-    public static final double subwooferRightX = meow;
-    public static final double subwooferFrontY = -upputuri;
-    public static final double subwooferSideY = -joshua;
+    public static final double subwooferFrontX = zero;
+    public static final double subwooferLeftX = -half;
+    public static final double subwooferRightX = half;
+    public static final double subwooferFrontY = -one;
+    public static final double subwooferSideY = -rootThreeTwo;
 
     // SOURCE
-    public static final double sourceXRed = -joshua;
-    public static final double sourceXBlue = joshua;
-    public static final double sourceY = meow;
+    public static final double sourceXRed = -rootThreeTwo;
+    public static final double sourceXBlue = rootThreeTwo;
+    public static final double sourceY = half;
 
-    // Angles
+    // Angles, calculated using inverse tangent using the x and y values created above
     public static final double aziAmpRed = (Math.atan2(ampXRed, ampY) * 180 / Math.PI);
     public static final double aziAmpBlue = (Math.atan2(ampXBlue, ampY) * 180 / Math.PI);
     public static final double aziSubwooferFront =
@@ -279,7 +297,7 @@ public final class SwerveConstants {
         (Math.atan2(sourceXRed, sourceY) * 180 / Math.PI) - 225;
     public static final double aziSourceBlue =
         (Math.atan2(sourceXBlue, sourceY) * 180 / Math.PI) - 225;
-    public static final double test = (Math.atan2(ampXRed, ampY) * 180 / Math.PI);
+    public static final double cleanUp = (Math.atan2(zero, one) * 180 / Math.PI);
     public static final double aziCommandTimeOut = 0.75;
   }
 }

@@ -29,6 +29,7 @@ public class EjectNote extends DebugCommandBase {
 
   @Override
   public void execute() {
+    /* Turns fast */
     new ParallelCommandGroup(new IntakeIn(intake), new PivotSlamAndVoltage(pivot));
     new IntakeOut(intake).withTimeout(2);
     swerveSubsystem.setAngularVelocity(10); // 10 rads/sec rotation

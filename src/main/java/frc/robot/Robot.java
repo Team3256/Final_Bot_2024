@@ -7,12 +7,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -54,6 +56,7 @@ public class Robot extends LoggedRobot {
     // }
 
     m_robotContainer = new RobotContainer();
+
     if (Constants.kEnableOBlog) {
       io.github.oblarg.oblog.Logger.configureLoggingAndConfig(m_robotContainer, false);
     } else {
@@ -212,6 +215,25 @@ public class Robot extends LoggedRobot {
     }
     m_robotContainer.swerveDrive.resetModulesToAbsolute();
     CommandScheduler.getInstance().cancelAll();
+
+    /* boolean to pass to robot container */
+    boolean isRedAlliance = true;
+
+    /* assignment of the boolean above to set the azimuth presets in robot container */
+    Optional<DriverStation.Alliance> ally = DriverStation.getAlliance();
+    if (ally.isPresent()) {
+      if (ally.get() == DriverStation.Alliance.Red) {
+        isRedAlliance = true;
+      }
+      if (ally.get() == DriverStation.Alliance.Blue) {
+        isRedAlliance = false;
+      }
+      m_robotContainer.configureAlliance(isRedAlliance);
+      m_robotContainer.configureSwerve();
+    }
+    else {
+      System.out.println("No alliance assigned");
+    }
   }
 
   /** This function is called periodically during operator control. */

@@ -46,7 +46,6 @@ import frc.robot.subsystems.climb.commands.ZeroClimb;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.commands.*;
 import frc.robot.subsystems.led.LED;
-import frc.robot.subsystems.led.commands.*;
 import frc.robot.subsystems.pivot.PivotConstants;
 import frc.robot.subsystems.pivot.PivotIntake;
 import frc.robot.subsystems.pivot.commands.PivotSetAngle;
@@ -86,7 +85,7 @@ public class RobotContainer {
   private final int secondaryAxis = XboxController.Axis.kRightY.value;
 
   /* Swerve Helpers */
-  private boolean isRed = true;
+  private static boolean isRed = true;
 
   /* Subsystems */
   @Log @Config public SwerveDrive swerveDrive;
@@ -245,7 +244,7 @@ public class RobotContainer {
     }
 
     /* Run checks */
-    configureCheeks();
+    configureChecks();
 
     // operator.povLeft().onTrue(cancelCommand);
     // Configure the auto
@@ -324,15 +323,25 @@ public class RobotContainer {
     // operator.povDownLeft().onTrue(new TestClimbFlip(climb));
   }
 
-  private void configureSwerve() {
+  /* Allows Robot to set the alliance color for usage by RobotContainer */
+  public static void configureAlliance(boolean col) {
+    isRed = col;
+  }
+
+  public void configureSwerve() {
+
+    /* Swerve init */
     swerveDrive = new SwerveDrive();
 
+    /* The default command for swerve. Left stick moves, right stick rotates */
     swerveDrive.setDefaultCommand(
         new TeleopSwerve(
             swerveDrive,
             () -> driver.getRawAxis(translationAxis),
             () -> driver.getRawAxis(strafeAxis),
             () -> driver.getRawAxis(rotationAxis)));
+
+    /* Slows the max speeds of movement and rotation while the left trigger is held */
     driver
         .leftTrigger()
         .whileTrue(
@@ -342,7 +351,7 @@ public class RobotContainer {
                 () -> driver.getRawAxis(strafeAxis),
                 () -> driver.getRawAxis(rotationAxis)));
 
-    // driver.povDown().whileTrue(new EjectNote(swerveDrive, pivotIntake, intake));
+    /* Rotation is an automatic and tracks the speaker while held */
     driver
         .leftBumper()
         .whileTrue(
@@ -353,153 +362,68 @@ public class RobotContainer {
                 true,
                 true));
 
+    /* Sets wherever the robot is facing as forward */
     driver.y().onTrue(new ZeroGyro(swerveDrive));
+
+    /* Forcibly resets the swerve angles to their forward drive positions */
     driver.y().onTrue(new ForceResetModulePositions(swerveDrive));
 
-    Command aziRed = new InstantCommand(() -> isRed = true);
-    Command aziBlue = new InstantCommand(() -> isRed = false);
-
-    driver.povLeft().onTrue(aziRed);
-    driver.povRight().onTrue(aziBlue);
-
+    /* Turns the robot to a specified angle */
     if (isRed) /* RED ALLIANCE PRESETS */ {
-      driver // AMP
+
+      /* Turns the robot to the red alliance amp */
+      driver
           .a()
           .onTrue(
               new Azimuth(
                       swerveDrive,
                       driver::getLeftY,
                       driver::getLeftX,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> azimuthStickDeadband + 0.1,
                       () -> aziAmpRed,
                       () -> true,
                       true,
                       true)
                   .withTimeout(aziCommandTimeOut));
-      driver // SUBWOOFER FRONT
-          .povDown()
-          .onTrue(
-              new Azimuth(
-                      swerveDrive,
-                      driver::getLeftY,
-                      driver::getLeftX,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> aziSubwooferFront,
-                      () -> true,
-                      true,
-                      true)
-                  .withTimeout(aziCommandTimeOut));
-      driver // SUBWOOFER RIGHT
-          .b()
-          .onTrue(
-              new Azimuth(
-                      swerveDrive,
-                      driver::getLeftY,
-                      driver::getLeftX,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> aziSubwooferRight,
-                      () -> true,
-                      true,
-                      true)
-                  .withTimeout(aziCommandTimeOut));
-      driver // SUBWOOFER LEFT
-          .x()
-          .onTrue(
-              new Azimuth(
-                      swerveDrive,
-                      driver::getLeftY,
-                      driver::getLeftX,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> aziSubwooferLeft,
-                      () -> true,
-                      true,
-                      true)
-                  .withTimeout(aziCommandTimeOut));
-      driver // SOURCE
+
+      /* Turns the robot to the red alliance source */
+      driver
           .rightBumper()
           .onTrue(
               new Azimuth(
                       swerveDrive,
                       driver::getLeftY,
                       driver::getLeftX,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> azimuthStickDeadband + 0.1,
                       () -> aziSourceRed,
                       () -> true,
                       true,
                       true)
                   .withTimeout(aziCommandTimeOut));
 
-    } else /* BLUE ALLIANCE PRESETS */ {
-      driver // AMP
+    }
+    else /* BLUE ALLIANCE PRESETS */ {
+
+      /* Turns the robot to the blue alliance amp */
+      driver
           .a()
           .onTrue(
               new Azimuth(
                       swerveDrive,
                       driver::getLeftY,
                       driver::getLeftX,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> azimuthStickDeadband + 0.1,
                       () -> aziAmpBlue,
                       () -> true,
                       true,
                       true)
                   .withTimeout(aziCommandTimeOut));
-      driver // SUBWOOFER FRONT
-          .povDown()
-          .onTrue(
-              new Azimuth(
-                      swerveDrive,
-                      driver::getLeftY,
-                      driver::getLeftX,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> aziSubwooferFront,
-                      () -> true,
-                      true,
-                      true)
-                  .withTimeout(aziCommandTimeOut));
-      driver // SUBWOOFER RIGHT
-          .b()
-          .onTrue(
-              new Azimuth(
-                      swerveDrive,
-                      driver::getLeftY,
-                      driver::getLeftX,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> aziSubwooferRight,
-                      () -> true,
-                      true,
-                      true)
-                  .withTimeout(aziCommandTimeOut));
-      driver // SUBWOOFER LEFT
-          .x()
-          .onTrue(
-              new Azimuth(
-                      swerveDrive,
-                      driver::getLeftY,
-                      driver::getLeftX,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> aziSubwooferLeft,
-                      () -> true,
-                      true,
-                      true)
-                  .withTimeout(aziCommandTimeOut));
-      driver // SOURCE
+
+      /* Turns the robot to the blue alliance source */
+      driver
           .rightBumper()
           .onTrue(
               new Azimuth(
                       swerveDrive,
                       driver::getLeftY,
                       driver::getLeftX,
-                      () -> azimuthStickDeadband + 0.1,
-                      () -> azimuthStickDeadband + 0.1,
                       () -> aziSourceBlue,
                       () -> true,
                       true,
@@ -507,21 +431,61 @@ public class RobotContainer {
                   .withTimeout(aziCommandTimeOut));
     }
 
-    /* Tester bind */
+    /* Turns the robot to the front side of the subwoofer */
     driver
-        .povUp()
-        .onTrue(
-            new Azimuth(
-                    swerveDrive,
-                    driver::getLeftY,
-                    driver::getLeftX,
-                    () -> azimuthStickDeadband + 0.1,
-                    () -> azimuthStickDeadband + 0.1,
-                    () -> test,
-                    () -> true,
-                    true,
-                    true)
-                .withTimeout(aziCommandTimeOut));
+            .povDown()
+            .onTrue(
+                    new Azimuth(
+                            swerveDrive,
+                            driver::getLeftY,
+                            driver::getLeftX,
+                            () -> aziSubwooferFront,
+                            () -> true,
+                            true,
+                            true)
+                            .withTimeout(aziCommandTimeOut));
+
+    /* Turns the robot to the right side of the subwoofer */
+    driver
+            .b()
+            .onTrue(
+                    new Azimuth(
+                            swerveDrive,
+                            driver::getLeftY,
+                            driver::getLeftX,
+                            () -> aziSubwooferRight,
+                            () -> true,
+                            true,
+                            true)
+                            .withTimeout(aziCommandTimeOut));
+
+    /* Turns the robot to the left side of the subwoofer */
+    driver
+            .x()
+            .onTrue(
+                    new Azimuth(
+                            swerveDrive,
+                            driver::getLeftY,
+                            driver::getLeftX,
+                            () -> aziSubwooferLeft,
+                            () -> true,
+                            true,
+                            true)
+                            .withTimeout(aziCommandTimeOut));
+
+    /* Turns the robot to the driver station for faster cleanups */
+    driver
+            .povUp()
+            .onTrue(
+                    new Azimuth(
+                            swerveDrive,
+                            driver::getLeftY,
+                            driver::getLeftX,
+                            () -> cleanUp,
+                            () -> true,
+                            true,
+                            true)
+                            .withTimeout(aziCommandTimeOut));
   }
 
   private void configureShooter() {
@@ -661,7 +625,7 @@ public class RobotContainer {
     // }
   }
 
-  private void configureCheeks() {
+  private void configureChecks() {
     // Here, put checks for the configuration of the robot
     if (DriverStation.isFMSAttached()) {
       // FMS-attached checks
@@ -688,7 +652,7 @@ public class RobotContainer {
     }
   }
 
-  private void systemCheeks() {
+  private void systemChecks() {
     if (FeatureFlags.kSwerveEnabled && swerveDrive != null) {
       swerveDrive.CANTest();
     }
@@ -708,7 +672,7 @@ public class RobotContainer {
     pitRoutine.schedule();
   }
 
-  public void ccccccc() {
+  public void shootSpeaker() {
     Command shoot = new ShootSpeaker(shooter);
     shoot.schedule();
   }
@@ -745,7 +709,7 @@ public class RobotContainer {
     Logger.recordOutput("SpeakerDistanceRed", distanceRed);
   }
 
-  public void shootSpeaker() {
+  public void shootSpeakerSchedule() {
     Command shoot = new ScheduleCommand(new ShootSpeaker(shooter));
     shoot.schedule();
   }
