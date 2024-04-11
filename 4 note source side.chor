@@ -1,0 +1,72 @@
+{
+    "version": "v0.3.1",
+    "robotConfiguration": {
+        "mass": 56.925842,
+        "rotationalInertia": 6.6944976,
+        "motorMaxTorque": 1.5519668737060042,
+        "motorMaxVelocity": 4640,
+        "gearing": 5.36,
+        "wheelbase": 0.52705,
+        "trackWidth": 0.52705,
+        "bumperLength": 0.84,
+        "bumperWidth": 0.84,
+        "wheelRadius": 0.0982726
+    },
+    "paths": {
+        "New Path": {
+            "waypoints": [
+                {
+                    "x": 1.3906110525131226,
+                    "y": 4.670508861541748,
+                    "heading": 0,
+                    "isInitialGuess": false,
+                    "translationConstrained": true,
+                    "headingConstrained": true,
+                    "controlIntervalCount": 16
+                },
+                {
+                    "x": 4.255763530731201,
+                    "y": 6.989917755126953,
+                    "heading": 0,
+                    "isInitialGuess": false,
+                    "translationConstrained": true,
+                    "headingConstrained": true,
+                    "controlIntervalCount": 12
+                },
+                {
+                    "x": 3.6710383892059326,
+                    "y": 5.216252326965332,
+                    "heading": 0,
+                    "isInitialGuess": false,
+                    "translationConstrained": true,
+                    "headingConstrained": true,
+                    "controlIntervalCount": 40
+                }
+            ],
+            "trajectory": [],
+            "trajectoryWaypoints": [],
+            "constraints": [
+                {
+                    "scope": [
+                        "first"
+                    ],
+                    "type": "StopPoint"
+                },
+                {
+                    "scope": [
+                        "last"
+                    ],
+                    "type": "StopPoint"
+                }
+            ],
+            "usesControlIntervalGuessing": true,
+            "defaultControlIntervalCount": 40,
+            "usesDefaultFieldObstacles": true,
+            "circleObstacles": [],
+            "eventMarkers": [],
+            "isTrajectoryStale": true
+        }
+    },
+    "splitTrajectoriesAtStopPoints": false,
+    "usesObstacles": false
+}
