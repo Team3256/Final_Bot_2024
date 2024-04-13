@@ -324,7 +324,7 @@ public class RobotContainer {
 
   private void configureSwerve() {
     swerveDrive = new SwerveDrive();
-    operator.b().whileTrue(new StrafeNoteTuner(swerveDrive, true ,false));
+    operator.b().whileTrue(new StrafeNoteTuner(swerveDrive, true, false));
     operator.x().whileTrue(new TranslationNoteTuner(swerveDrive, true, false));
 
     swerveDrive.setDefaultCommand(
