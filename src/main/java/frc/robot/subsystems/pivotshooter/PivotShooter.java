@@ -11,6 +11,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.pivotshooter.PivotShooterConstants;
 import frc.robot.utils.SinglePositionSubsystem;
 
 public class PivotShooter extends SinglePositionSubsystem {
