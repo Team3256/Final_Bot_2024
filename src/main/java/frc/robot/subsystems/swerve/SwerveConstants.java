@@ -301,5 +301,6 @@ public final class SwerveConstants {
 
     /* Timeout */
     public static final double aziCommandTimeOut = 1.5;
+    //TODO: set to 0.75 after tune
   }
 }
