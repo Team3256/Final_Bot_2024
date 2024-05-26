@@ -11,12 +11,19 @@ import org.littletonrobotics.junction.AutoLog
 interface ClimbIO {
     @AutoLog
     class ClimbIOInputs {
+        @JvmField
         var climbMotorVoltage: Double = 0.0
+        @JvmField
         var climbMotorPosition: Double = 0.0
+        @JvmField
         var climbMotorVelocity: Double = 0.0
+        @JvmField
         var climbMotorStatorCurrent: Double = 0.0
+        @JvmField
         var climbMotorSupplyCurrent: Double = 0.0
+        @JvmField
         var climbMotorTemperature: Double = 0.0
+        @JvmField
         var climbMotorReferenceSlope: Double = 0.0
     }
 
