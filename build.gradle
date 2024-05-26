@@ -171,6 +171,13 @@ spotless {
         trimTrailingWhitespace()
         endWithNewline()
     }
+    kotlin {
+        ktfmt()
+        licenseHeader("// Copyright (c) 2024 FRC 3256\n// https://github.com/Team3256\n//\n// Use of this source code is governed by a \n// license that can be found in the LICENSE file at\n// the root directory of this project.\n\n")
+    }
+    kotlinGradle {
+        ktfmt()
+    }
     format 'xml', {
         target fileTree('.') {
             include '**/*.xml'

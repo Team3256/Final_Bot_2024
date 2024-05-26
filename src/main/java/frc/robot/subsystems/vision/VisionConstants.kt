@@ -4,9 +4,10 @@
 // Use of this source code is governed by a 
 // license that can be found in the LICENSE file at
 // the root directory of this project.
+
 package frc.robot.subsystems.vision
 
 object VisionConstants {
-    const val noteDetectionLimelight: String = "limelight-note"
-    const val centerLimelight: String = "limelight"
+  const val noteDetectionLimelight: String = "limelight-note"
+  const val centerLimelight: String = "limelight"
 }
