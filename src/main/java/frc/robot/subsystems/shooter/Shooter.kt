@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 import org.littletonrobotics.junction.Logger
 
 class Shooter(private val shooterIO: ShooterIO) : SubsystemBase() {
-  private val shooterIOAutoLogged: ShooterIOInputsAutoLogged = ShooterIOInputsAutoLogged()
+  private val shooterIOAutoLogged: ShooterIOInputs = ShooterIOInputs()
 
   override fun periodic() {
     shooterIO.updateInputs(shooterIOAutoLogged)

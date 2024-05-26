@@ -13,8 +13,8 @@ import frc.robot.subsystems.vision.Vision
 import org.littletonrobotics.junction.Logger
 
 class PivotShooter(private val pivotShooterIO: PivotShooterIO) : SubsystemBase() {
-  private val pivotShooterIOAutoLogged: PivotShooterIOInputsAutoLogged =
-      PivotShooterIOInputsAutoLogged()
+  private val pivotShooterIOAutoLogged: PivotShooterIOInputs =
+      PivotShooterIOInputs()
 
   private val aprilTagMap: InterpolatingDoubleTreeMap =
       object : InterpolatingDoubleTreeMap() {

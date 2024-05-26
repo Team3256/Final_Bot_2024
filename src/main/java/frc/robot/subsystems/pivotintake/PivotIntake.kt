@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 import org.littletonrobotics.junction.Logger
 
 class PivotIntake(private val pivotIntakeIO: PivotIntakeIO) : SubsystemBase() {
-  private val pivotIntakeIOAutoLogged: PivotIntakeIOInputsAutoLogged =
-      PivotIntakeIOInputsAutoLogged()
+  private val pivotIntakeIOAutoLogged: PivotIntakeIOInputs =
+      PivotIntakeIOInputs()
 
   override fun periodic() {
     pivotIntakeIO.updateInputs(pivotIntakeIOAutoLogged)

@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 import org.littletonrobotics.junction.Logger
 
 class Climb(private val climbIO: ClimbIO) : SubsystemBase() {
-  private val climbIOAutoLogged: ClimbIOInputsAutoLogged = ClimbIOInputsAutoLogged()
+  private val climbIOAutoLogged: ClimbIOInputs = ClimbIOInputs()
 
   override fun periodic() {
     climbIO.updateInputs(climbIOAutoLogged)

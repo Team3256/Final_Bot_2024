@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 import org.littletonrobotics.junction.Logger
 
 class AmpBar(private val ampBarIO: AmpBarIO) : SubsystemBase() {
-  private val ampBarIOAutoLogged: AmpBarIOInputsAutoLogged = AmpBarIOInputsAutoLogged()
+  private val ampBarIOAutoLogged: AmpBarIOInputs = AmpBarIOInputs()
 
   override fun periodic() {
     ampBarIO.updateInputs(ampBarIOAutoLogged)
