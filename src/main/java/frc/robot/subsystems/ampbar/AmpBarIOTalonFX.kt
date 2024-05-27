@@ -14,6 +14,7 @@ import frc.robot.drivers.MonitoredTalonFX
 import frc.robot.subsystems.ampbar.AmpBarIO.AmpBarIOInputs
 import frc.robot.utils.PhoenixUtil
 import frc.robot.utils.TalonUtil
+import kotlin.properties.Delegates
 
 class AmpBarIOTalonFX : AmpBarIO {
   private val ampBarMotor = MonitoredTalonFX(AmpBarConstants.kAmpBarMotorID)
@@ -64,7 +65,5 @@ class AmpBarIOTalonFX : AmpBarIO {
     ampBarMotor.setControl(NeutralOut())
   }
 
-  override public val isCurrentSpiking: Boolean by lazy {
-    ampBarMotor.statorCurrent.valueAsDouble > AmpBarConstants.kAmpBarCurrentThreshold
-  }
+  override public val isCurrentSpiking get() = ampBarMotor.statorCurrent.valueAsDouble > AmpBarConstants.kAmpBarCurrentThreshold;
 }
