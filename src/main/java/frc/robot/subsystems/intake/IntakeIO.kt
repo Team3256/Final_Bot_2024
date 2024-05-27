@@ -29,7 +29,7 @@ interface IntakeIO {
     @JvmField var isBeamBroken: Boolean = false
   }
 
-  fun updateInputs(inputs: IntakeIOInputs?) {}
+  fun updateInputs(inputs: IntakeIOInputs) {}
 
   fun setIntakeVoltage(voltage: Double) {}
 

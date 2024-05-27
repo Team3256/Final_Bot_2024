@@ -47,7 +47,7 @@ class ClimbIOTalonFX : ClimbIO {
     climbMotor.optimizeBusUtilization()
   }
 
-  override fun updateInputs(inputs: ClimbIOInputs?) {
+  override fun updateInputs(inputs: ClimbIOInputs) {
     BaseStatusSignal.refreshAll(
         climbMotorVoltage,
         climbMotorVelocity,

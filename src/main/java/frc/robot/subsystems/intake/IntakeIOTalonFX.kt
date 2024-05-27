@@ -73,7 +73,7 @@ class IntakeIOTalonFX : IntakeIO {
     passthroughMotor.optimizeBusUtilization()
   }
 
-  override fun updateInputs(inputs: IntakeIOInputs?) {
+  override fun updateInputs(inputs: IntakeIOInputs) {
     BaseStatusSignal.refreshAll(
         intakeMotorVoltage,
         intakeMotorVelocity,

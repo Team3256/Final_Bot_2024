@@ -21,7 +21,7 @@ interface ClimbIO {
     @JvmField var climbMotorReferenceSlope: Double = 0.0
   }
 
-  fun updateInputs(inputs: ClimbIOInputs?) {}
+  fun updateInputs(inputs: ClimbIOInputs) {}
 
   fun setPosition(position: Double) {}
 

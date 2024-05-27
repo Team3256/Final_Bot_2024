@@ -40,7 +40,7 @@ class AmpBarIOTalonFX : AmpBarIO {
         ampBarMotorTemperature)
     ampBarMotor.optimizeBusUtilization()
   }
-    override fun updateInputs(inputs: AmpBarIOInputs) {
+  override fun updateInputs(inputs: AmpBarIOInputs) {
     BaseStatusSignal.refreshAll(
         ampBarMotorVoltage,
         ampBarMotorVelocity,
@@ -64,7 +64,7 @@ class AmpBarIOTalonFX : AmpBarIO {
     ampBarMotor.setControl(NeutralOut())
   }
 
-  override fun isCurrentSpiking(): Boolean {
-    return (ampBarMotor.statorCurrent.valueAsDouble > AmpBarConstants.kAmpBarCurrentThreshold)
+  override public val isCurrentSpiking: Boolean by lazy {
+    ampBarMotor.statorCurrent.valueAsDouble > AmpBarConstants.kAmpBarCurrentThreshold
   }
 }
