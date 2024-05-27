@@ -77,21 +77,19 @@ class RobotContainer {
   lateinit var ampbar: AmpBar
   lateinit var pivotIntake: PivotIntake
   lateinit var climb: Climb
-  var commandQueue: CommandQueue
+  private var commandQueue: CommandQueue
 
-  var vision: Vision
+  private var vision: Vision
 
-  lateinit var pivotShooter: PivotShooter
+  private lateinit var pivotShooter: PivotShooter
   lateinit var led: LED
 
   @Config.Command(name = "Auto Score Speaker") private lateinit var autoScoreSpeaker: Command
 
   @Config.Command(name = "Auto Score Amp") private lateinit var autoScoreAmp: Command
 
-  @Config.Command(name = "Climb Zero") private lateinit var zeroClimb: Command
-
   /* Auto */
-  private var autoChooser: SendableChooser<Command>? = null
+  private var autoChooser: SendableChooser<Command>
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   init {
@@ -619,7 +617,7 @@ class RobotContainer {
     operator.hid.setRumble(GenericHID.RumbleType.kBothRumble, 0.0)
   }
 
-  fun configureLED() {
+  private fun configureLED() {
     val ledList = arrayOf(intArrayOf(2, 3), intArrayOf(1, 1))
 
     led = LED()
