@@ -12,12 +12,12 @@ import org.littletonrobotics.junction.AutoLog
 interface AmpBarIO {
   @AutoLog
   open class AmpBarIOInputs {
-    var ampBarMotorVoltage: Double = 0.0
-    var ampBarMotorPosition: Double = 0.0
-    var ampBarMotorVelocity: Double = 0.0
-    var ampBarMotorStatorCurrent: Double = 0.0
-    var ampBarMotorSupplyCurrent: Double = 0.0
-    var ampBarMotorTemperature: Double = 0.0
+    @JvmField var ampBarMotorVoltage: Double = 0.0
+    @JvmField var ampBarMotorPosition: Double = 0.0
+    @JvmField var ampBarMotorVelocity: Double = 0.0
+    @JvmField var ampBarMotorStatorCurrent: Double = 0.0
+    @JvmField var ampBarMotorSupplyCurrent: Double = 0.0
+    @JvmField var ampBarMotorTemperature: Double = 0.0
   }
 
   fun updateInputs(inputs: AmpBarIOInputs) {}

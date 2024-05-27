@@ -12,14 +12,14 @@ import org.littletonrobotics.junction.AutoLog
 interface PivotShooterIO {
   @AutoLog
   public open class PivotShooterIOInputs {
-    var pivotShooterMotorVoltage: Double = 0.0
-    var pivotShooterMotorVelocity: Double = 0.0
-    var pivotShooterMotorPosition: Double = 0.0
-    var pivotShooterMotorDegrees: Double = 0.0
-    var pivotShooterMotorStatorCurrent: Double = 0.0
-    var pivotShooterMotorSupplyCurrent: Double = 0.0
-    var pivotShooterMotorTemperature: Double = 0.0
-    var pivotShooterMotorReferenceSlope: Double = 0.0
+    @JvmField var pivotShooterMotorVoltage: Double = 0.0
+    @JvmField var pivotShooterMotorVelocity: Double = 0.0
+    @JvmField var pivotShooterMotorPosition: Double = 0.0
+    @JvmField var pivotShooterMotorDegrees: Double = 0.0
+    @JvmField var pivotShooterMotorStatorCurrent: Double = 0.0
+    @JvmField var pivotShooterMotorSupplyCurrent: Double = 0.0
+    @JvmField var pivotShooterMotorTemperature: Double = 0.0
+    @JvmField var pivotShooterMotorReferenceSlope: Double = 0.0
   }
 
   fun updateInputs(inputs: PivotShooterIOInputs) {}

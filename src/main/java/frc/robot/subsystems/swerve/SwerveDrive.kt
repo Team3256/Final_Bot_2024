@@ -41,7 +41,7 @@ import java.util.concurrent.locks.ReentrantLock
 import kotlin.math.hypot
 import kotlin.math.sign
 
-class SwerveDrive(private val gyroIO: GyroIO, mod0: ModuleIO?, mod1: ModuleIO?, mod2: ModuleIO?, mod3: ModuleIO?) :
+class SwerveDrive(private val gyroIO: GyroIO, mod0: ModuleIO, mod1: ModuleIO, mod2: ModuleIO, mod3: ModuleIO) :
     SubsystemBase(), Loggable {
     fun DEFAULT() {}
 
@@ -372,13 +372,9 @@ class SwerveDrive(private val gyroIO: GyroIO, mod0: ModuleIO?, mod1: ModuleIO?, 
         return distancetostdDevAngle!!.value(clampDistanceForInterpolation(distance))
     }
 
-    var moduleStates: Array<SwerveModuleState?>
+    var moduleStates: Array<SwerveModuleState>
         get() {
-            val states = arrayOfNulls<SwerveModuleState>(4)
-            for (mod in mSwerveMods) {
-                states[mod.moduleNumber] = mod.state
-            }
-            return states
+            return mSwerveMods.map { it.state }.toTypedArray()
         }
         /* Used by SwerveControllerCommand in Auto */  set(desiredStates) {
             SwerveDriveKinematics.desaturateWheelSpeeds(
@@ -637,7 +633,7 @@ class SwerveDrive(private val gyroIO: GyroIO, mod0: ModuleIO?, mod1: ModuleIO?, 
         // }
         for (mod in mSwerveMods) {
             SmartDashboard.putNumber(
-                "Mod " + mod.moduleNumber + " CANcoder", mod.caNcoder.degrees
+                "Mod " + mod.moduleNumber + " CANcoder", mod.cANcoder.degrees
             )
             SmartDashboard.putNumber(
                 "Mod " + mod.moduleNumber + " Angle", mod.position.angle.degrees

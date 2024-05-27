@@ -12,19 +12,19 @@ import org.littletonrobotics.junction.AutoLog
 interface ShooterIO {
   @AutoLog
   public open class ShooterIOInputs {
-    var shooterMotorVoltage: Double = 0.0
-    var shooterMotorVelocity: Double = 0.0
-    var shooterMotorStatorCurrent: Double = 0.0
-    var shooterMotorSupplyCurrent: Double = 0.0
-    var shooterMotorTemperature: Double = 0.0
-    var shooterMotorReferenceSlope: Double = 0.0
+    @JvmField var shooterMotorVoltage: Double = 0.0
+    @JvmField var shooterMotorVelocity: Double = 0.0
+    @JvmField var shooterMotorStatorCurrent: Double = 0.0
+    @JvmField var shooterMotorSupplyCurrent: Double = 0.0
+    @JvmField var shooterMotorTemperature: Double = 0.0
+    @JvmField var shooterMotorReferenceSlope: Double = 0.0
 
-    var shooterMotorFollowerVoltage: Double = 0.0
-    var shooterMotorFollowerVelocity: Double = 0.0
-    var shooterMotorFollowerStatorCurrent: Double = 0.0
-    var shooterMotorFollowerSupplyCurrent: Double = 0.0
-    var shooterMotorFollowerTemperature: Double = 0.0
-    var shooterMotorFollowerReferenceSlope: Double = 0.0
+    @JvmField var shooterMotorFollowerVoltage: Double = 0.0
+    @JvmField var shooterMotorFollowerVelocity: Double = 0.0
+    @JvmField var shooterMotorFollowerStatorCurrent: Double = 0.0
+    @JvmField var shooterMotorFollowerSupplyCurrent: Double = 0.0
+    @JvmField var shooterMotorFollowerTemperature: Double = 0.0
+    @JvmField var shooterMotorFollowerReferenceSlope: Double = 0.0
   }
 
   fun updateInputs(inputs: ShooterIOInputs) {}
