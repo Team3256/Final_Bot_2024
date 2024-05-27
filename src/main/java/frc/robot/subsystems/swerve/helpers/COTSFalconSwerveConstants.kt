@@ -58,7 +58,7 @@ class COTSFalconSwerveConstants(
     const val SDSMK4i_L3: Double = (6.12 / 1.0)
   }
 
-companion object {
+  companion object {
     /** Swerve Drive Specialties - MK3 Module */
     fun SDSMK3(driveGearRatio: Double): COTSFalconSwerveConstants {
       val wheelDiameter = Units.inchesToMeters(3.86)

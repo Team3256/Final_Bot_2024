@@ -24,7 +24,7 @@ interface AmpBarIO {
 
   fun setVoltage(voltage: Double) {}
 
-  public val isCurrentSpiking: Boolean;
+  public val isCurrentSpiking: Boolean
 
   fun off() {}
 }

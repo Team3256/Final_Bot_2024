@@ -4,6 +4,7 @@
 // Use of this source code is governed by a 
 // license that can be found in the LICENSE file at
 // the root directory of this project.
+
 package frc.robot.subsystems.swerve
 
 import edu.wpi.first.math.geometry.Rotation2d
@@ -14,49 +15,48 @@ import org.littletonrobotics.junction.AutoLogOutput
 import org.littletonrobotics.junction.Logger
 
 class SwerveModule(private val io: ModuleIO, val moduleNumber: Int) {
-    private val inputs: ModuleIOInputsAutoLogged = ModuleIOInputsAutoLogged()
+  private val inputs: ModuleIOInputsAutoLogged = ModuleIOInputsAutoLogged()
 
-    fun updateInputs() {
-        io.updateInputs(inputs)
-    }
+  fun updateInputs() {
+    io.updateInputs(inputs)
+  }
 
-    fun periodic() {
-        Logger.processInputs("Swerve/Module$moduleNumber", inputs)
-    }
+  fun periodic() {
+    Logger.processInputs("Swerve/Module$moduleNumber", inputs)
+  }
 
-    fun setDesiredState(desiredState: SwerveModuleState, isOpenLoop: Boolean) {
-        var desiredState = desiredState
-        desiredState = SwerveModuleState.optimize(desiredState, state.angle)
-        io.setAnglePosition(desiredState.angle.rotations)
-        setSpeed(desiredState, isOpenLoop)
-    }
+  fun setDesiredState(desiredState: SwerveModuleState, isOpenLoop: Boolean) {
+    var desiredState = desiredState
+    desiredState = SwerveModuleState.optimize(desiredState, state.angle)
+    io.setAnglePosition(desiredState.angle.rotations)
+    setSpeed(desiredState, isOpenLoop)
+  }
 
-    private fun setSpeed(desiredState: SwerveModuleState, isOpenLoop: Boolean) {
-        io.setDriveVelocity(desiredState.speedMetersPerSecond, isOpenLoop)
-    }
+  private fun setSpeed(desiredState: SwerveModuleState, isOpenLoop: Boolean) {
+    io.setDriveVelocity(desiredState.speedMetersPerSecond, isOpenLoop)
+  }
 
-    @get:AutoLogOutput
-    val state: SwerveModuleState
-        get() = SwerveModuleState(
+  @get:AutoLogOutput
+  val state: SwerveModuleState
+    get() =
+        SwerveModuleState(
             Conversions.RPSToMPS(inputs.driveMotorVelocity, SwerveConstants.wheelCircumference),
-            Rotation2d.fromRotations(inputs.angleMotorPosition)
-        )
+            Rotation2d.fromRotations(inputs.angleMotorPosition))
 
-    @get:AutoLogOutput
-    val position: SwerveModulePosition
-        get() = SwerveModulePosition(
+  @get:AutoLogOutput
+  val position: SwerveModulePosition
+    get() =
+        SwerveModulePosition(
             Conversions.rotationsToMeters(
-                inputs.driveMotorPosition, SwerveConstants.wheelCircumference
-            ),
-            Rotation2d.fromRotations(inputs.angleMotorPosition)
-        )
+                inputs.driveMotorPosition, SwerveConstants.wheelCircumference),
+            Rotation2d.fromRotations(inputs.angleMotorPosition))
 
-    fun resetToAbsolute() {
-        io.resetToAbsolute()
-    }
+  fun resetToAbsolute() {
+    io.resetToAbsolute()
+  }
 
-    val cANcoder: Rotation2d
-        get() = io.cANcoder
+  val cANcoder: Rotation2d
+    get() = io.cANcoder
 
-    fun off() {}
+  fun off() {}
 }

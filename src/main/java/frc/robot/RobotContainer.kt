@@ -48,7 +48,6 @@ import frc.robot.subsystems.vision.Vision
 import frc.robot.subsystems.vision.VisionIOLimelight
 import frc.robot.utils.CommandQueue
 import io.github.oblarg.oblog.annotations.Config
-import kotlin.math.abs
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -143,7 +142,7 @@ class RobotContainer {
     // Named commands
     run {
       // Auto named commands
-      NamedCommands.registerCommand("test intake", intake!!.setIntakeVoltage(12.0).withTimeout(1.0))
+      NamedCommands.registerCommand("test intake", intake.setIntakeVoltage(12.0).withTimeout(1.0))
 
       // NamedCommands.registerCommand( // intake ground note, stow to feeder chamber
       // "intake sequence new",
@@ -155,29 +154,28 @@ class RobotContainer {
       // new ParallelCommandGroup(
       // new PivotSlamAndVoltage(pivotIntake).withTimeout(0.75),
       // new ScheduleCommand(new ShootSpeaker(shooter)))));
-      intake?.let { intake ->
-        NamedCommands.registerCommand( // shoot preloaded note to speaker, use at match start
-            "preload speaker",
-            SequentialCommandGroup( // new PrintCommand("preload im outta blush"),
-                pivotShooter!!.zero(),
-                ParallelDeadlineGroup(
-                    SequentialCommandGroup(
-                        WaitCommand(0.5),
-                        intake
-                            .setVoltage(
-                                IntakeConstants.kIntakeIntakeVoltage,
-                                IntakeConstants.kPassthroughIntakeVoltage)
-                            .withTimeout(0.7)),
-                    pivotShooter!!.setPosition(PivotShooterConstants.kSubWooferPreset),
-                    shooter!!.setVelocity(
-                        ShooterConstants.kShooterSubwooferRPS,
-                        ShooterConstants.kShooterFollowerSubwooferRPS))))
-      
+
+      NamedCommands.registerCommand( // shoot preloaded note to speaker, use at match start
+          "preload speaker",
+          SequentialCommandGroup( // new PrintCommand("preload im outta blush"),
+              pivotShooter.zero(),
+              ParallelDeadlineGroup(
+                  SequentialCommandGroup(
+                      WaitCommand(0.5),
+                      intake
+                          .setVoltage(
+                              IntakeConstants.kIntakeIntakeVoltage,
+                              IntakeConstants.kPassthroughIntakeVoltage)
+                          .withTimeout(0.7)),
+                  pivotShooter.setPosition(PivotShooterConstants.kSubWooferPreset),
+                  shooter.setVelocity(
+                      ShooterConstants.kShooterSubwooferRPS,
+                      ShooterConstants.kShooterFollowerSubwooferRPS))))
 
       NamedCommands.registerCommand( // shoot preloaded note to speaker, use at match start
           "preload speaker amp side",
           SequentialCommandGroup( // new PrintCommand("preload im outta blush"),
-              pivotShooter!!.zero(),
+              pivotShooter.zero(),
               ParallelDeadlineGroup(
                   SequentialCommandGroup(
                       WaitCommand(0.8),
@@ -186,8 +184,8 @@ class RobotContainer {
                               IntakeConstants.kIntakeIntakeVoltage,
                               IntakeConstants.kPassthroughIntakeVoltage)
                           .withTimeout(0.7)),
-                  pivotShooter!!.setPosition(PivotShooterConstants.kSubWooferPreset),
-                  shooter!!.setVelocity(
+                  pivotShooter.setPosition(PivotShooterConstants.kSubWooferPreset),
+                  shooter.setVelocity(
                       ShooterConstants.kShooterSubwooferRPS,
                       ShooterConstants.kShooterFollowerSubwooferRPS)) // new
               // PivotShooterSlamAndVoltage(pivotShooter)));
@@ -195,10 +193,10 @@ class RobotContainer {
       NamedCommands.registerCommand( // intake ground note, stow to feeder chamber
           "intake sequence",
           ParallelCommandGroup(
-              pivotIntake!!.setPosition(PivotIntakeConstants.kPivotGroundPos),
-              intake!!.intakeIn(), // new PivotShooterSlamAndVoltage(pivotShooter),
+              pivotIntake.setPosition(PivotIntakeConstants.kPivotGroundPos),
+              intake.intakeIn(), // new PivotShooterSlamAndVoltage(pivotShooter),
               // new PivotShootSubwoofer(pivotShooter),
-              shooter!!.setVelocity(
+              shooter.setVelocity(
                   ShooterConstants.kShooterSubwooferRPS,
                   ShooterConstants.kShooterFollowerSubwooferRPS)))
       NamedCommands.registerCommand( // outtake note to feeder
@@ -211,66 +209,64 @@ class RobotContainer {
                           IntakeConstants.kIntakeIntakeVoltage,
                           IntakeConstants.kPassthroughIntakeVoltage)
                       .withTimeout(2.0),
-                  shooter!!.setVelocity(
+                  shooter.setVelocity(
                       ShooterConstants.kShooterSubwooferRPS,
                       ShooterConstants.kShooterFollowerSubwooferRPS))))
       NamedCommands.registerCommand(
-          "aim subwoofer", pivotShooter!!.setPosition(PivotShooterConstants.kSubWooferPreset))
-      NamedCommands.registerCommand("shooter off", shooter!!.off())
+          "aim subwoofer", pivotShooter.setPosition(PivotShooterConstants.kSubWooferPreset))
+      NamedCommands.registerCommand("shooter off", shooter.off())
 
       NamedCommands.registerCommand( // outtake note to feeder
           "safety",
           ParallelCommandGroup(
-              intake!!.intakeIn().withTimeout(1.0),
-              shooter!!.setVelocity(
+              intake.intakeIn().withTimeout(1.0),
+              shooter.setVelocity(
                   ShooterConstants.kShooterAmpRPS, ShooterConstants.kShooterFollowerAmpRPS)))
       NamedCommands.registerCommand(
           "aim wing center",
-          pivotShooter!!.setPosition(
-              PivotShooterConstants.kWingNoteCenterPreset)) // wing note center
+          pivotShooter.setPosition(PivotShooterConstants.kWingNoteCenterPreset)) // wing note center
       NamedCommands.registerCommand(
           "aim wing side",
-          pivotShooter!!.setPosition(PivotShooterConstants.kWingNoteSidePreset)) // wing note side
+          pivotShooter.setPosition(PivotShooterConstants.kWingNoteSidePreset)) // wing note side
       NamedCommands.registerCommand(
           "aim wing far side",
-          pivotShooter!!.setPosition(
+          pivotShooter.setPosition(
               PivotShooterConstants.kWingNoteFarSidePreset)) // wing note far side
       NamedCommands.registerCommand(
           "aim truss",
-          pivotShooter!!.setPosition(
+          pivotShooter.setPosition(
               PivotShooterConstants.kTrussSourceSidePreset)) // truss source sid
       NamedCommands.registerCommand(
           "aim half truss wing",
-          pivotShooter!!.setPosition(
-              PivotShooterConstants.kHalfWingPodiumPreset)) // half wing podium
-      NamedCommands.registerCommand("zero pivot shooter", pivotShooter!!.slamAndPID())
+          pivotShooter.setPosition(PivotShooterConstants.kHalfWingPodiumPreset)) // half wing podium
+      NamedCommands.registerCommand("zero pivot shooter", pivotShooter.slamAndPID())
 
       NamedCommands.registerCommand( // rev shooter to speaker presets
           "rev speaker",
-          shooter!!.setVelocity(
+          shooter.setVelocity(
               ShooterConstants.kShooterSubwooferRPS, ShooterConstants.kShooterFollowerSubwooferRPS))
       NamedCommands.registerCommand( // rev shooter to amp presets
           "rev amp",
-          shooter!!.setVelocity(
+          shooter.setVelocity(
               ShooterConstants.kShooterAmpRPS, ShooterConstants.kShooterFollowerAmpRPS))
       NamedCommands.registerCommand( // modular pivot down, use for sabotage
           "pivot down",
-          pivotIntake!!.setPosition(PivotIntakeConstants.kPivotGroundPos).withTimeout(0.75))
-      NamedCommands.registerCommand("stow", pivotIntake!!.slamAndPID().withTimeout(0.75))
+          pivotIntake.setPosition(PivotIntakeConstants.kPivotGroundPos).withTimeout(0.75))
+      NamedCommands.registerCommand("stow", pivotIntake.slamAndPID().withTimeout(0.75))
       NamedCommands.registerCommand( // intake with no stow, use for sabotage
-          "intake", intake!!.intakeIn())
+          "intake", intake.intakeIn())
       NamedCommands.registerCommand( // shoot preloaded note to amp, use at match start
           "preload amp",
           SequentialCommandGroup(
-              pivotIntake!!.zero(),
+              pivotIntake.zero(),
               ParallelDeadlineGroup(
-                  SequentialCommandGroup(WaitCommand(0.8), intake!!.intakeIn().withTimeout(1.5)),
-                  shooter!!.setVelocity(
+                  SequentialCommandGroup(WaitCommand(0.8), intake.intakeIn().withTimeout(1.5)),
+                  shooter.setVelocity(
                       ShooterConstants.kShooterAmpRPS, ShooterConstants.kShooterFollowerAmpRPS))))
       NamedCommands.registerCommand(
           "scheduled shoot speaker",
           ScheduleCommand(
-              shooter!!.setVelocity(
+              shooter.setVelocity(
                   ShooterConstants.kShooterSubwooferRPS,
                   ShooterConstants.kShooterFollowerSubwooferRPS)))
       NamedCommands.registerCommand(
@@ -280,9 +276,9 @@ class RobotContainer {
           "lmao",
           RepeatCommand(
               SequentialCommandGroup(
-                  pivotIntake!!.setPosition(PivotIntakeConstants.kPivotGroundPos).withTimeout(0.75),
-                  pivotIntake!!.slamAndPID())))
-    }}
+                  pivotIntake.setPosition(PivotIntakeConstants.kPivotGroundPos).withTimeout(0.75),
+                  pivotIntake.slamAndPID())))
+    }
 
     /* Run checks */
     configureCheeks()
@@ -308,12 +304,12 @@ class RobotContainer {
         .x()
         .onTrue(
             SequentialCommandGroup(
-                pivotShooter!!.setPosition(PivotShooterConstants.kSubWooferPreset)))
+                pivotShooter.setPosition(PivotShooterConstants.kSubWooferPreset)))
     operator
         .b()
         .onTrue(
             SequentialCommandGroup(
-                pivotShooter!!.setPosition(PivotShooterConstants.kWingNoteSidePreset)))
+                pivotShooter.setPosition(PivotShooterConstants.kWingNoteSidePreset)))
   }
 
   private fun configureIntake() {
@@ -325,45 +321,39 @@ class RobotContainer {
     operator
         .rightBumper()
         .whileTrue(
-            intake!!.setVoltage(
+            intake.setVoltage(
                 IntakeConstants.kIntakeIntakeVoltage, IntakeConstants.kPassthroughIntakeVoltage))
 
     operator
         .leftBumper()
         .whileTrue(
-            intake!!.setVoltage(
+            intake.setVoltage(
                 -IntakeConstants.kIntakeIntakeVoltage, -IntakeConstants.kPassthroughIntakeVoltage))
-    driver.rightTrigger().whileTrue(intake!!.intakeIn())
+    driver.rightTrigger().whileTrue(intake.intakeIn())
 
     // operator.povDown().onTrue(new IntakeOff(intake));
   }
 
   private fun configurePivotIntake() {
     pivotIntake = PivotIntake(PivotIntakeIOTalonFX())
-    operator.povRight().onTrue(pivotIntake!!.setPosition(PivotIntakeConstants.kPivotGroundPos))
-    operator.povLeft().onTrue(pivotIntake!!.slamAndPID())
+    operator.povRight().onTrue(pivotIntake.setPosition(PivotIntakeConstants.kPivotGroundPos))
+    operator.povLeft().onTrue(pivotIntake.slamAndPID())
   }
 
   private fun configureClimb() {
     climb = Climb(ClimbIOTalonFX())
 
     // zeroClimb = new ZeroClimb(climb); // NEED FOR SHUFFLEBOARD
-    operator.povDown().onTrue(climb!!.zero())
+    operator.povDown().onTrue(climb.zero())
     // new Trigger(() -> operator.getRawAxis(translationAxis) < -0.5).onTrue(new
     // UpClimb(climb));
-    Trigger { operator.getRawAxis(translationAxis) > 0.5 }.onTrue(climb!!.retractClimber())
-    if (this.ampbar != null && this.pivotShooter != null) {
-      Trigger { operator.getRawAxis(translationAxis) < -0.5 }
-          .onTrue(
-              Commands.sequence(
-                  ParallelCommandGroup(
-                          ampbar!!.setAmpPosition(), pivotShooter!!.setPosition(12 / 138.33))
-                      .withTimeout(1.0),
-                  climb!!.extendClimber()))
-    } else {
-      Trigger { abs(operator.getRawAxis(secondaryAxis)) > 0.5 }
-          .onTrue(PrintCommand("u suck")) // old command waws dehook climb
-    }
+    Trigger { operator.getRawAxis(translationAxis) > 0.5 }.onTrue(climb.retractClimber())
+    Trigger { operator.getRawAxis(translationAxis) < -0.5 }
+        .onTrue(
+            Commands.sequence(
+                ParallelCommandGroup(ampbar.setAmpPosition(), pivotShooter.setPosition(12 / 138.33))
+                    .withTimeout(1.0),
+                climb.extendClimber()))
     // Josh: HangSequence is broken and Rhea does not want to use it; we should
     // rmove this
     // later.
@@ -382,204 +372,179 @@ class RobotContainer {
             ModuleIOTalonFX(0, SwerveConstants.Mod0.constants),
             ModuleIOTalonFX(1, SwerveConstants.Mod1.constants),
             ModuleIOTalonFX(2, SwerveConstants.Mod2.constants),
-            ModuleIOTalonFX(3, SwerveConstants.Mod3.constants));
+            ModuleIOTalonFX(3, SwerveConstants.Mod3.constants))
 
-      swerveDrive?.let { swerveDrive ->
-          swerveDrive!!.defaultCommand =
-              TeleopSwerve(
+    swerveDrive.defaultCommand =
+        TeleopSwerve(
+            swerveDrive,
+            { driver.getRawAxis(translationAxis) },
+            { driver.getRawAxis(strafeAxis) },
+            { driver.getRawAxis(rotationAxis) })
+
+    driver
+        .leftTrigger()
+        .whileTrue(
+            TeleopSwerveLimited(
+                swerveDrive,
+                { driver.getRawAxis(translationAxis) },
+                { driver.getRawAxis(strafeAxis) },
+                { driver.getRawAxis(rotationAxis) }))
+
+    driver
+        .rightTrigger()
+        .whileTrue(
+            NoMoreRotation(
+                swerveDrive,
+                { driver.getRawAxis(translationAxis) },
+                { driver.getRawAxis(strafeAxis) },
+                true,
+                true))
+
+    /* full reset */
+    driver.y().onTrue(ZeroGyro(swerveDrive))
+
+    // driver.y().onTrue(new ForceResetModulePositions(swerveDrive));
+    if (isRed) /* RED ALLIANCE PRESETS */ {
+      /* AMP */
+
+      driver
+          .a()
+          .onTrue(
+              Azimuth(
+                      swerveDrive,
+                      { driver.leftY },
+                      { driver.leftX },
+                      { AzimuthConstants.aziAmpRed },
+                      { true },
+                      true,
+                      true)
+                  .withTimeout(AzimuthConstants.aziCommandTimeOut))
+
+      /* SOURCE */
+      driver
+          .rightBumper()
+          .onTrue(
+              Azimuth(
+                      swerveDrive,
+                      { driver.leftY },
+                      { driver.leftX },
+                      { AzimuthConstants.aziSourceRed },
+                      { true },
+                      true,
+                      true)
+                  .withTimeout(AzimuthConstants.aziCommandTimeOut))
+
+      /* FEEDER */
+      driver
+          .povRight()
+          .onTrue(
+              Azimuth(
                   swerveDrive,
-                  { driver.getRawAxis(translationAxis) },
-                  { driver.getRawAxis(strafeAxis) },
-                  { driver.getRawAxis(rotationAxis) })
+                  { driver.leftY },
+                  { driver.leftX },
+                  { AzimuthConstants.feederRed },
+                  { true },
+                  true,
+                  true))
+    } else /* BLUE ALLIANCE PRESETS */ {
+      /* AMP */
 
-          driver
-              .leftTrigger()
-              .whileTrue(
-                  TeleopSwerveLimited(
-                      swerveDrive,
-                      { driver.getRawAxis(translationAxis) },
-                      { driver.getRawAxis(strafeAxis) },
-                      { driver.getRawAxis(rotationAxis) })
-              )
-
-          driver
-              .rightTrigger()
-              .whileTrue(
-                  NoMoreRotation(
-                      swerveDrive,
-                      { driver.getRawAxis(translationAxis) },
-                      { driver.getRawAxis(strafeAxis) },
-                      true,
-                      true
-                  )
-              )
-
-          /* full reset */
-          driver.y().onTrue(ZeroGyro(swerveDrive))
-
-          // driver.y().onTrue(new ForceResetModulePositions(swerveDrive));
-          if (isRed) /* RED ALLIANCE PRESETS */ {
-              /* AMP */
-
-              driver
-                  .a()
-                  .onTrue(
-                      Azimuth(
-                          swerveDrive,
-                          { driver.leftY },
-                          { driver.leftX },
-                          { AzimuthConstants.aziAmpRed },
-                          { true },
-                          true,
-                          true
-                      )
-                          .withTimeout(AzimuthConstants.aziCommandTimeOut)
-                  )
-
-              /* SOURCE */
-              driver
-                  .rightBumper()
-                  .onTrue(
-                      Azimuth(
-                          swerveDrive,
-                          { driver.leftY },
-                          { driver.leftX },
-                          { AzimuthConstants.aziSourceRed },
-                          { true },
-                          true,
-                          true
-                      )
-                          .withTimeout(AzimuthConstants.aziCommandTimeOut)
-                  )
-
-              /* FEEDER */
-              driver
-                  .povRight()
-                  .onTrue(
-                      Azimuth(
-                          swerveDrive,
-                          { driver.leftY },
-                          { driver.leftX },
-                          { AzimuthConstants.feederRed },
-                          { true },
-                          true,
-                          true
-                      )
-                  )
-          } else /* BLUE ALLIANCE PRESETS */ {
-              /* AMP */
-
-              driver
-                  .a()
-                  .onTrue(
-                      Azimuth(
-                          swerveDrive,
-                          { driver.leftY },
-                          { driver.leftX },
-                          { AzimuthConstants.aziAmpBlue },
-                          { true },
-                          true,
-                          true
-                      )
-                          .withTimeout(AzimuthConstants.aziCommandTimeOut)
-                  )
-
-              /* SOURCE */
-              driver
-                  .rightBumper()
-                  .onTrue(
-                      Azimuth(
-                          swerveDrive,
-                          { driver.leftY },
-                          { driver.leftX },
-                          { AzimuthConstants.aziSourceBlue },
-                          { true },
-                          true,
-                          true
-                      )
-                          .withTimeout(AzimuthConstants.aziCommandTimeOut)
-                  )
-
-              /* FEEDER */
-              driver
-                  .povRight()
-                  .onTrue(
-                      Azimuth(
-                          swerveDrive,
-                          { driver.leftY },
-                          { driver.leftX },
-                          { AzimuthConstants.feederBlue },
-                          { true },
-                          true,
-                          true
-                      )
-                  )
-          }
-
-          /* SUBWOOFER FRONT */
-          driver
-              .leftBumper()
-              .onTrue(
-                  Azimuth(
+      driver
+          .a()
+          .onTrue(
+              Azimuth(
                       swerveDrive,
                       { driver.leftY },
                       { driver.leftX },
-                      { AzimuthConstants.aziSubwooferFront },
+                      { AzimuthConstants.aziAmpBlue },
                       { true },
                       true,
-                      true
-                  )
-                      .withTimeout(AzimuthConstants.aziCommandTimeOut)
-              )
+                      true)
+                  .withTimeout(AzimuthConstants.aziCommandTimeOut))
 
-          /* SUBWOOFER RIGHT */
-          driver
-              .b()
-              .onTrue(
-                  Azimuth(
+      /* SOURCE */
+      driver
+          .rightBumper()
+          .onTrue(
+              Azimuth(
                       swerveDrive,
                       { driver.leftY },
                       { driver.leftX },
-                      { AzimuthConstants.aziSubwooferRight },
+                      { AzimuthConstants.aziSourceBlue },
                       { true },
                       true,
-                      true
-                  )
-                      .withTimeout(AzimuthConstants.aziCommandTimeOut)
-              )
+                      true)
+                  .withTimeout(AzimuthConstants.aziCommandTimeOut))
 
-          /* SUBWOOFER LEFT */
-          driver
-              .x()
-              .onTrue(
-                  Azimuth(
-                      swerveDrive,
-                      { driver.leftY },
-                      { driver.leftX },
-                      { AzimuthConstants.aziSubwooferLeft },
-                      { true },
-                      true,
-                      true
-                  )
-                      .withTimeout(AzimuthConstants.aziCommandTimeOut)
-              )
+      /* FEEDER */
+      driver
+          .povRight()
+          .onTrue(
+              Azimuth(
+                  swerveDrive,
+                  { driver.leftY },
+                  { driver.leftX },
+                  { AzimuthConstants.feederBlue },
+                  { true },
+                  true,
+                  true))
+    }
 
-          /* CLEANUP */
-          driver
-              .povDown()
-              .onTrue(
-                  Azimuth(
-                      swerveDrive,
-                      { driver.leftY },
-                      { driver.leftX },
-                      { AzimuthConstants.cleanUp },
-                      { true },
-                      true,
-                      true
-                  )
-                      .withTimeout(AzimuthConstants.aziCommandTimeOut)
-              )
-      }
+    /* SUBWOOFER FRONT */
+    driver
+        .leftBumper()
+        .onTrue(
+            Azimuth(
+                    swerveDrive,
+                    { driver.leftY },
+                    { driver.leftX },
+                    { AzimuthConstants.aziSubwooferFront },
+                    { true },
+                    true,
+                    true)
+                .withTimeout(AzimuthConstants.aziCommandTimeOut))
+
+    /* SUBWOOFER RIGHT */
+    driver
+        .b()
+        .onTrue(
+            Azimuth(
+                    swerveDrive,
+                    { driver.leftY },
+                    { driver.leftX },
+                    { AzimuthConstants.aziSubwooferRight },
+                    { true },
+                    true,
+                    true)
+                .withTimeout(AzimuthConstants.aziCommandTimeOut))
+
+    /* SUBWOOFER LEFT */
+    driver
+        .x()
+        .onTrue(
+            Azimuth(
+                    swerveDrive,
+                    { driver.leftY },
+                    { driver.leftX },
+                    { AzimuthConstants.aziSubwooferLeft },
+                    { true },
+                    true,
+                    true)
+                .withTimeout(AzimuthConstants.aziCommandTimeOut))
+
+    /* CLEANUP */
+    driver
+        .povDown()
+        .onTrue(
+            Azimuth(
+                    swerveDrive,
+                    { driver.leftY },
+                    { driver.leftX },
+                    { AzimuthConstants.cleanUp },
+                    { true },
+                    true,
+                    true)
+                .withTimeout(AzimuthConstants.aziCommandTimeOut))
   }
 
   private fun configureShooter() {
@@ -601,36 +566,36 @@ class RobotContainer {
           .rightTrigger()
           .onTrue(
               Commands.parallel(
-                  shooter!!.setVelocity(
+                  shooter.setVelocity(
                       ShooterConstants.kShooterSubwooferRPS,
                       ShooterConstants.kShooterFollowerSubwooferRPS),
-                  ampbar!!.setStowPosition()))
+                  ampbar.setStowPosition()))
       operator
           .leftTrigger()
           .onTrue(
               ParallelCommandGroup(
-                  shooter!!.setVelocity(
+                  shooter.setVelocity(
                       ShooterConstants.kShooterAmpRPS, ShooterConstants.kShooterFollowerAmpRPS),
-                  ampbar!!.setAmpPosition(),
-                  pivotShooter!!.setPosition(PivotShooterConstants.kAmpPreset)))
+                  ampbar.setAmpPosition(),
+                  pivotShooter.setPosition(PivotShooterConstants.kAmpPreset)))
       operator
           .y()
           .onTrue(
               ParallelCommandGroup(
-                  shooter!!.off(), ampbar!!.setStowPosition(), pivotShooter!!.slamAndPID()))
+                  shooter.off(), ampbar.setStowPosition(), pivotShooter.slamAndPID()))
     } else {
       operator
           .rightTrigger()
           .onTrue(
-              shooter!!.setVelocity(
+              shooter.setVelocity(
                   ShooterConstants.kShooterSubwooferRPS,
                   ShooterConstants.kShooterFollowerSubwooferRPS))
       operator
           .leftTrigger()
           .onTrue(
-              shooter!!.setVelocity(
+              shooter.setVelocity(
                   ShooterConstants.kShooterAmpRPS, ShooterConstants.kShooterFollowerAmpRPS))
-      operator.y().onTrue(ParallelCommandGroup(shooter!!.off(), pivotShooter!!.slamAndPID()))
+      operator.y().onTrue(ParallelCommandGroup(shooter.off(), pivotShooter.slamAndPID()))
     }
   }
 
@@ -640,8 +605,8 @@ class RobotContainer {
         .povUp()
         .onTrue(
             ParallelCommandGroup(
-                pivotShooter!!.setPosition(PivotShooterConstants.kFeederPreset),
-                shooter!!.setVelocity(
+                pivotShooter.setPosition(PivotShooterConstants.kFeederPreset),
+                shooter.setVelocity(
                     ShooterConstants.kShooterFeederRPS,
                     ShooterConstants.kShooterFollowerFeederRPS)))
   }
@@ -658,7 +623,7 @@ class RobotContainer {
     val ledList = arrayOf(intArrayOf(2, 3), intArrayOf(1, 1))
 
     led = LED()
-    led!!.defaultCommand = CoordinatesButItsMultiple(led, ledList, 100, 0, 0, 10)
+    led.defaultCommand = CoordinatesButItsMultiple(led, ledList, 100, 0, 0, 10)
 
     // led.setDefaultCommand(new SetLEDsFromBinaryString(led, LEDConstants.based,
     // 100, 0, 0, 5));
@@ -762,7 +727,7 @@ class RobotContainer {
 
   /* Test Routines */
   fun CANTest(): Boolean {
-    return swerveDrive!!.CANTest()
+    return swerveDrive.CANTest()
   }
 
   fun runPitTestRoutine() {

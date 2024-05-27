@@ -4,6 +4,7 @@
 // Use of this source code is governed by a 
 // license that can be found in the LICENSE file at
 // the root directory of this project.
+
 package frc.robot.subsystems.swerve.commands
 
 import edu.wpi.first.math.controller.PIDController
@@ -14,25 +15,22 @@ import frc.robot.subsystems.swerve.SwerveDrive
 import java.util.function.DoubleConsumer
 import java.util.function.DoubleSupplier
 
-class RotateToSpeaker(swerve: SwerveDrive) : PIDCommand(
-    PIDController(
-        SwerveConstants.crosshairAngleKP,
-        SwerveConstants.crosshairAngleKI,
-        SwerveConstants.crosshairAngleKD
-    ),
-    DoubleSupplier { LimelightHelpers.getTX("limelight") },
-    0.0,
-    DoubleConsumer { output: Double -> swerve.setAngularVelocity(output) },
-    swerve
-) {
-    init {
-        controller
-            .setTolerance(
-                SwerveConstants.crosshairTurnTolerance, SwerveConstants.crosshairTurnToleranceVel
-            )
-    }
+class RotateToSpeaker(swerve: SwerveDrive) :
+    PIDCommand(
+        PIDController(
+            SwerveConstants.crosshairAngleKP,
+            SwerveConstants.crosshairAngleKI,
+            SwerveConstants.crosshairAngleKD),
+        DoubleSupplier { LimelightHelpers.getTX("limelight") },
+        0.0,
+        DoubleConsumer { output: Double -> swerve.setAngularVelocity(output) },
+        swerve) {
+  init {
+    controller.setTolerance(
+        SwerveConstants.crosshairTurnTolerance, SwerveConstants.crosshairTurnToleranceVel)
+  }
 
-    override fun isFinished(): Boolean {
-        return controller.atSetpoint()
-    }
+  override fun isFinished(): Boolean {
+    return controller.atSetpoint()
+  }
 }
