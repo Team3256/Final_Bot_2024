@@ -3,10 +3,10 @@ plugins {
     id "edu.wpi.first.GradleRIO" version "2024.3.2"
     id "com.diffplug.spotless" version "6.12.0"
     id "com.peterabeles.gversion" version "1.10"
+    id 'org.jetbrains.kotlin.jvm'
+    id "org.jetbrains.kotlin.kapt" version "2.0.0"
 }
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
 
@@ -87,7 +87,9 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 
     def akitJson = new groovy.json.JsonSlurper().parseText(new File(projectDir.getAbsolutePath() + "/vendordeps/AdvantageKit.json").text)
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     annotationProcessor "org.littletonrobotics.akit.junction:junction-autolog:$akitJson.version"
+    kapt "org.littletonrobotics.akit.junction:junction-autolog:$akitJson.version"
 }
 
 test {
@@ -108,6 +110,7 @@ repositories {
     }
     maven { url 'https://jitpack.io' }
     mavenLocal()
+    mavenCentral()
 }
 
 configurations.all {
@@ -170,6 +173,13 @@ spotless {
         trimTrailingWhitespace()
         endWithNewline()
     }
+    kotlin {
+        ktfmt()
+        licenseHeader("// Copyright (c) 2024 FRC 3256\n// https://github.com/Team3256\n//\n// Use of this source code is governed by a \n// license that can be found in the LICENSE file at\n// the root directory of this project.\n\n")
+    }
+    kotlinGradle {
+        ktfmt()
+    }
     format 'xml', {
         target fileTree('.') {
             include '**/*.xml'
@@ -199,6 +209,9 @@ gversion {
     dateFormat   = "yyyy-MM-dd HH:mm:ss z"
     timeZone     = "America/Los_Angeles" // Use preferred time zone
     indent       = "  "
+}
+kotlin {
+    jvmToolchain(11)
 }
 
 ///project.compileJava.finalizedBy spotlessApply
