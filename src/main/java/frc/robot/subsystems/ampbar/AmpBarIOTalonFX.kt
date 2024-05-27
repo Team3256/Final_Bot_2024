@@ -40,8 +40,7 @@ class AmpBarIOTalonFX : AmpBarIO {
         ampBarMotorTemperature)
     ampBarMotor.optimizeBusUtilization()
   }
-
-  override fun updateInputs(inputs: AmpBarIOInputs) {
+    override fun updateInputs(inputs: AmpBarIOInputs) {
     BaseStatusSignal.refreshAll(
         ampBarMotorVoltage,
         ampBarMotorVelocity,

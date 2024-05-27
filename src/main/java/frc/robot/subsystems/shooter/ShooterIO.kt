@@ -11,7 +11,7 @@ import org.littletonrobotics.junction.AutoLog
 
 interface ShooterIO {
   @AutoLog
-  class ShooterIOInputs {
+  public open class ShooterIOInputs {
     var shooterMotorVoltage: Double = 0.0
     var shooterMotorVelocity: Double = 0.0
     var shooterMotorStatorCurrent: Double = 0.0

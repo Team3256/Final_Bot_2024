@@ -11,7 +11,7 @@ import org.littletonrobotics.junction.AutoLog
 
 interface IntakeIO {
   @AutoLog
-  class IntakeIOInputs {
+  public open class IntakeIOInputs {
     @JvmField var intakeMotorVoltage: Double = 0.0
     @JvmField var intakeMotorVelocity: Double = 0.0
     @JvmField var intakeMotorStatorCurrent: Double = 0.0

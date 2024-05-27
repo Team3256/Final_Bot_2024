@@ -11,7 +11,7 @@ import org.littletonrobotics.junction.AutoLog
 
 interface PivotShooterIO {
   @AutoLog
-  class PivotShooterIOInputs {
+  public open class PivotShooterIOInputs {
     var pivotShooterMotorVoltage: Double = 0.0
     var pivotShooterMotorVelocity: Double = 0.0
     var pivotShooterMotorPosition: Double = 0.0

@@ -11,7 +11,7 @@ import org.littletonrobotics.junction.AutoLog
 
 interface AmpBarIO {
   @AutoLog
-  class AmpBarIOInputs {
+  public open class AmpBarIOInputs {
     var ampBarMotorVoltage: Double = 0.0
     var ampBarMotorPosition: Double = 0.0
     var ampBarMotorVelocity: Double = 0.0
