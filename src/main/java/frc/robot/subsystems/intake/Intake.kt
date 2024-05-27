@@ -14,7 +14,7 @@ import frc.robot.helpers.TimedBoolean
 import org.littletonrobotics.junction.Logger
 
 class Intake(private val intakeIO: IntakeIO) : SubsystemBase() {
-  private val intakeIOAutoLogged: IntakeIOInputs = IntakeIOInputs()
+  private val intakeIOAutoLogged: IntakeIOInputsAutoLogged = IntakeIOInputsAutoLogged()
 
   override fun periodic() {
     intakeIO.updateInputs(intakeIOAutoLogged)
