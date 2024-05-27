@@ -75,14 +75,14 @@ class RobotContainer {
   lateinit var swerveDrive: SwerveDrive
   lateinit var shooter: Shooter
   lateinit var intake: Intake
-  @JvmField var ampbar: AmpBar? = null
+  lateinit var ampbar: AmpBar
   lateinit var pivotIntake: PivotIntake
   lateinit var climb: Climb
   var commandQueue: CommandQueue
 
   var vision: Vision
 
-  var pivotShooter: PivotShooter? = null
+  lateinit var pivotShooter: PivotShooter
   lateinit var led: LED
 
   @Config.Command(name = "Auto Score Speaker") private lateinit var autoScoreSpeaker: Command
