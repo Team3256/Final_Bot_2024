@@ -9,7 +9,10 @@ package frc.robot.robotviz;
 
 import static frc.robot.robotviz.RobotVizConstants.*;
 
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -17,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.FeatureFlags;
 import frc.robot.subsystems.intake.Intake;
-import frc.robot.subsystems.pivotintake.PivotIntake;
+import frc.robot.subsystems.pivot.PivotIntake;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
@@ -102,6 +105,26 @@ public class RobotViz {
         pivot.append(new MechanismLigament2d("Hand", handLength, 90, kLineWidth, white));
     // intake
     intake = hand.append(new MechanismLigament2d("Intake", kIntakeRadius, 90, kLineWidth, green));
+
+
+
+
+  }
+
+
+  public Pose3d getIntakePivotPose()
+  {
+    return new Pose3d(new Translation3d(-0.2,0,0), new Rotation3d(0,getIntakePivotAngleRadians(),0));
+  }
+
+  public double getIntakePivotAngleDegrees()
+  {
+    return pivotIntakeSubsystem.getDegrees();
+  }
+
+  public double getIntakePivotAngleRadians()
+  {
+    return pivotIntakeSubsystem.getDegrees() * (Math.PI/180);
   }
 
   public void update(double dt) {
@@ -120,10 +143,10 @@ public class RobotViz {
       feeder.setAngle(0);
     }
     if (FeatureFlags.kPivotEnabled) {
-      pivot.setAngle(pivot.getAngle());
+      pivot.setAngle(pivotIntakeSubsystem.getDegrees());
     }
     if (FeatureFlags.kIntakeEnabled) {
-      intake.setAngle(intake.getAngle() + intakeSubsystem.getIntakeVelocity() * 360 * dt);
+      intake.setAngle(intake.getAngle() + intakeSubsystem.getIntakeRps() * 360 * dt);
     }
   }
 }

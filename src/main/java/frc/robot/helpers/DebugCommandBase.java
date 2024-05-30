@@ -23,8 +23,9 @@ public abstract class DebugCommandBase extends Command {
       // This does mean that all commands in the same periodic() will have the same
       // timestamp, but I
       // don't believe that should be an issue for now.
-      //      Logger.recordOutput("dcb/initialized", );
-
+      if (this.getClass().getSimpleName().equals("IntakeSetVoltage")) {
+        return;
+      }
       System.out.println(
           "[DCB] "
               + this.getClass().getSimpleName()
@@ -36,6 +37,9 @@ public abstract class DebugCommandBase extends Command {
   @Override
   public void end(boolean interrupted) {
     if (Constants.FeatureFlags.DebugCommandEnabled) {
+      if (this.getClass().getSimpleName().equals("IntakeSetVoltage")) {
+        return;
+      }
       System.out.println(
           "[DCB] "
               + this.getClass().getSimpleName()

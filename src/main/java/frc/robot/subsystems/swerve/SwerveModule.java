@@ -37,11 +37,11 @@ public class SwerveModule {
           SwerveConstants.driveKS, SwerveConstants.driveKV, SwerveConstants.driveKA);
 
   /* drive motor control requests */
-  private final DutyCycleOut driveDutyCycle = new DutyCycleOut(0).withEnableFOC(true);
-  private final VelocityVoltage driveVelocity = new VelocityVoltage(0).withEnableFOC(true);
+  private final DutyCycleOut driveDutyCycle = new DutyCycleOut(0);
+  private final VelocityVoltage driveVelocity = new VelocityVoltage(0);
 
   /* angle motor control requests */
-  private final PositionVoltage anglePosition = new PositionVoltage(0).withEnableFOC(true);
+  private final PositionVoltage anglePosition = new PositionVoltage(0);
   private SwerveModuleConstants swerveModuleConstants;
 
   public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants) {

@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 14.0,
-        "y": 6.81
+        "x": 13.55,
+        "y": 6.9
       },
       "prevControl": null,
       "nextControl": {
-        "x": 13.535469528537384,
-        "y": 6.81
+        "x": 11.222775020726232,
+        "y": 6.9
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.53,
-        "y": 7.356655518866593
+        "x": 8.328810723241988,
+        "y": 7.436381206571257
       },
       "prevControl": {
-        "x": 8.594070782232327,
-        "y": 7.634295575206686
+        "x": 8.354488431005166,
+        "y": 7.97561306959801
       },
       "nextControl": {
-        "x": 8.459734980725312,
-        "y": 7.052173768676274
+        "x": 8.305389050150426,
+        "y": 6.9445260716484345
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 12.298784312261917,
-        "y": 7.026501927468906
+        "x": 14.16,
+        "y": 6.72
       },
       "prevControl": {
-        "x": 11.783507504247533,
-        "y": 6.99136941783156
+        "x": 13.984337451813278,
+        "y": 6.742285196553275
       },
       "nextControl": null,
       "isLocked": false,
@@ -51,41 +51,30 @@
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 0.05,
-      "rotationDegrees": 170.0,
-      "rotateFast": true
-    },
-    {
-      "waypointRelativePos": 1.05,
-      "rotationDegrees": 161.0,
-      "rotateFast": true
+      "waypointRelativePos": 0.2,
+      "rotationDegrees": 160.0,
+      "rotateFast": false
     }
   ],
-  "constraintZones": [
-    {
-      "name": "New Constraints Zone",
-      "minWaypointRelativePos": 1.9,
-      "maxWaypointRelativePos": 2.0,
-      "constraints": {
-        "maxVelocity": 4.28,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
-      }
-    },
-    {
-      "name": "New Constraints Zone",
-      "minWaypointRelativePos": 1.0,
-      "maxWaypointRelativePos": 1.05,
-      "constraints": {
-        "maxVelocity": 0.5,
-        "maxAcceleration": 2.0,
-        "maxAngularVelocity": 343.77,
-        "maxAngularAcceleration": 720.0
-      }
-    }
-  ],
+  "constraintZones": [],
   "eventMarkers": [
+    {
+      "name": "shoot",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "rev speaker"
+              }
+            }
+          ]
+        }
+      }
+    },
     {
       "name": "intake sequence",
       "waypointRelativePos": 0.6,
@@ -104,8 +93,8 @@
       }
     },
     {
-      "name": "aim wing half",
-      "waypointRelativePos": 0.1,
+      "name": "aim wing side",
+      "waypointRelativePos": 1.55,
       "command": {
         "type": "sequential",
         "data": {
@@ -113,7 +102,7 @@
             {
               "type": "named",
               "data": {
-                "name": "aim half truss wing"
+                "name": "aim wing side"
               }
             }
           ]
@@ -122,37 +111,30 @@
     },
     {
       "name": "shoot",
-      "waypointRelativePos": 1.9,
+      "waypointRelativePos": 1.65,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "outtake speaker"
-              }
-            }
-          ]
+          "commands": []
         }
       }
     }
   ],
   "globalConstraints": {
     "maxVelocity": 4.28,
-    "maxAcceleration": 4.0,
-    "maxAngularVelocity": 343.77,
+    "maxAcceleration": 4.5,
+    "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 161.0,
+    "rotation": 150.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "5 note amp",
+  "folder": "6 note auto Awwww",
   "previewStartingState": {
-    "rotation": 148.5,
+    "rotation": 150.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

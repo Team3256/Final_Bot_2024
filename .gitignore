@@ -179,5 +179,3 @@ ctre_sim/
 src/main/java/frc/robot/BuildConstants.java
 *.wpilog
 src/main/java/frc/robot/subsystems/led/commands/SetNoteShot.java
-
-.git2

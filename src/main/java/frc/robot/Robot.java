@@ -7,16 +7,12 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.commands.FollowPathCommand;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.BiConsumer;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -126,10 +122,7 @@ public class Robot extends LoggedRobot {
     if (Constants.kEnableAdvKit) {
       Logger.start();
     }
-    FollowPathCommand.warmupCommand().schedule();
 
-    // FollowPathCommand warmupCommand = new FollowPathCommand();
-    // warmupCommand.schedule();
     // Start logging! No more data receivers, replay sources, or
     // metadata values
     // may
@@ -200,7 +193,6 @@ public class Robot extends LoggedRobot {
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      System.out.println("hehe auto startie " + Timer.getFPGATimestamp());
       m_autonomousCommand.schedule();
     }
   }
@@ -220,20 +212,6 @@ public class Robot extends LoggedRobot {
     }
     m_robotContainer.swerveDrive.resetModulesToAbsolute();
     CommandScheduler.getInstance().cancelAll();
-
-    boolean isRedAlliance = true;
-    Optional<DriverStation.Alliance> ally = Optional.of(DriverStation.getAlliance().get());
-    if (ally.get() == DriverStation.Alliance.Red) {
-      isRedAlliance = true;
-    }
-    if (ally.get() == DriverStation.Alliance.Blue) {
-      isRedAlliance = false;
-    } else {
-      isRedAlliance = true;
-    }
-
-    m_robotContainer.setAllianceCol(isRedAlliance);
-    m_robotContainer.configureSwerve();
   }
 
   /** This function is called periodically during operator control. */
