@@ -54,7 +54,6 @@ import frc.robot.subsystems.swerve.commands.*;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.utils.CommandQueue;
-import io.github.oblarg.oblog.annotations.Config;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a

@@ -34,8 +34,6 @@ import frc.robot.Robot;
 import frc.robot.autos.AutoConstants;
 import frc.robot.limelight.Limelight;
 import frc.robot.limelight.LimelightHelpers;
-import io.github.oblarg.oblog.Loggable;
-import io.github.oblarg.oblog.annotations.Config;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
