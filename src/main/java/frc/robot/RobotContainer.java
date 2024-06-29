@@ -54,6 +54,8 @@ import frc.robot.subsystems.swerve.commands.*;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.utils.CommandQueue;
+import monologue.Annotations.Log;
+import monologue.Logged;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -61,7 +63,7 @@ import frc.robot.utils.CommandQueue;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
-public class RobotContainer {
+public class RobotContainer implements Logged {
   /* Controllers */
   private final CommandXboxController driver = new CommandXboxController(0);
   private final CommandXboxController operator = new CommandXboxController(1);
@@ -90,13 +92,13 @@ public class RobotContainer {
   public PivotShooter pivotShooter;
   public LED led;
 
-  @Config.Command(name = "Auto Score Speaker")
+  @Log(key = "Auto Score Speaker")
   private Command autoScoreSpeaker;
 
-  @Config.Command(name = "Auto Score Amp")
+  @Log(key = "Auto Score Amp")
   private Command autoScoreAmp;
 
-  @Config.Command(name = "Climb Zero")
+  @Log(key = "Climb Zero")
   private Command zeroClimb;
 
   /* Auto */

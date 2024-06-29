@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class LED extends SubsystemBase implements Loggable {
+public class LED extends SubsystemBase {
   public IndicatorAnimation currentAnimation = IndicatorAnimation.Default;
   private CANdle candle;
 

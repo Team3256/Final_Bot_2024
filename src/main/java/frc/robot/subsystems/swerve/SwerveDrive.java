@@ -39,39 +39,37 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import monologue.Logged;
+import monologue.Annotations.Log;
+
 import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
-public class SwerveDrive extends SubsystemBase implements Loggable {
+public class SwerveDrive extends SubsystemBase implements Logged {
 
   private static PolynomialSplineFunction distanceToStdDevXTranslation;
   private static PolynomialSplineFunction distanceToStdDevYTranslation;
   private static PolynomialSplineFunction distancetostdDevAngle;
 
-  public void DEFAULT() {}
+  public void DEFAULT() {
+  }
 
   static {
     if (FeatureFlags.kLocalizationStdDistanceBased) {
       double[] trainDistance = new double[SwerveConstants.kSwervePoseEstimatorStdData.size()];
-      double[] trainStdDevXTranslation =
-          new double[SwerveConstants.kSwervePoseEstimatorStdData.size()];
-      double[] trainStdDevYTranslation =
-          new double[SwerveConstants.kSwervePoseEstimatorStdData.size()];
+      double[] trainStdDevXTranslation = new double[SwerveConstants.kSwervePoseEstimatorStdData.size()];
+      double[] trainStdDevYTranslation = new double[SwerveConstants.kSwervePoseEstimatorStdData.size()];
       double[] trainStdDevAngle = new double[SwerveConstants.kSwervePoseEstimatorStdData.size()];
       for (int i = 0; i < SwerveConstants.kSwervePoseEstimatorStdData.size(); i++) {
         trainDistance[i] = SwerveConstants.kSwervePoseEstimatorStdData.get(i).distance;
-        trainStdDevXTranslation[i] =
-            SwerveConstants.kSwervePoseEstimatorStdData.get(i).stdDevXTranslation;
-        trainStdDevYTranslation[i] =
-            SwerveConstants.kSwervePoseEstimatorStdData.get(i).stdDevYTranslation;
+        trainStdDevXTranslation[i] = SwerveConstants.kSwervePoseEstimatorStdData.get(i).stdDevXTranslation;
+        trainStdDevYTranslation[i] = SwerveConstants.kSwervePoseEstimatorStdData.get(i).stdDevYTranslation;
         trainStdDevAngle[i] = SwerveConstants.kSwervePoseEstimatorStdData.get(i).stdDevAngle;
       }
-      distanceToStdDevXTranslation =
-          new LinearInterpolator().interpolate(trainDistance, trainStdDevXTranslation);
-      distanceToStdDevYTranslation =
-          new LinearInterpolator().interpolate(trainDistance, trainStdDevYTranslation);
+      distanceToStdDevXTranslation = new LinearInterpolator().interpolate(trainDistance, trainStdDevXTranslation);
+      distanceToStdDevYTranslation = new LinearInterpolator().interpolate(trainDistance, trainStdDevYTranslation);
       distancetostdDevAngle = new LinearInterpolator().interpolate(trainDistance, trainStdDevAngle);
     }
   }
@@ -110,13 +108,12 @@ public class SwerveDrive extends SubsystemBase implements Loggable {
         LimelightHelpers.setPipelineIndex("limelight", 0);
       }
     }
-    mSwerveMods =
-        new SwerveModule[] {
-          new SwerveModule(mod0, 0),
-          new SwerveModule(mod1, 1),
-          new SwerveModule(mod2, 2),
-          new SwerveModule(mod3, 3)
-        };
+    mSwerveMods = new SwerveModule[] {
+        new SwerveModule(mod0, 0),
+        new SwerveModule(mod1, 1),
+        new SwerveModule(mod2, 2),
+        new SwerveModule(mod3, 3)
+    };
 
     /*
      * By pausing init for a second before setting module offsets, we avoid a bug
@@ -127,9 +124,8 @@ public class SwerveDrive extends SubsystemBase implements Loggable {
     Timer.delay(1.0);
     resetModulesToAbsolute();
 
-    swerveOdometry =
-        new SwerveDriveOdometry(
-            SwerveConstants.swerveKinematics, getGyroYaw(), getModulePositions());
+    swerveOdometry = new SwerveDriveOdometry(
+        SwerveConstants.swerveKinematics, getGyroYaw(), getModulePositions());
     // old rotation 2 0 0.025
 
     AutoBuilder.configureHolonomic(
@@ -147,19 +143,16 @@ public class SwerveDrive extends SubsystemBase implements Loggable {
             new PIDConstants(5, 0, 0), // Translation PID constants OLD: 29 0 0
             new PIDConstants(3.5, 0, 0), // Rotation PID constants OLD: 7.5 0 0.75
             AutoConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
-            AutoConstants
-                .kDriveBaseRadiusMeters, // Drive base radius in meters. Distance from robot center
+            AutoConstants.kDriveBaseRadiusMeters, // Drive base radius in meters. Distance from robot center
             // to furthest module.
             new ReplanningConfig(
                 false, false) // Default path replanning config. See the API for the options
-            // here
-            ),
+        // here
+        ),
         () -> {
           var alliance = DriverStation.getAlliance();
           if (alliance.isPresent()) {
-            return alliance.get()
-                == DriverStation.Alliance
-                    .Blue; // flip path if we are blue alliance since paths were
+            return alliance.get() == DriverStation.Alliance.Blue; // flip path if we are blue alliance since paths were
             // drawn for red
           }
           return false;
@@ -168,19 +161,18 @@ public class SwerveDrive extends SubsystemBase implements Loggable {
 
     // configureAutoBuilder(10, 0.075, 0.15, 0.1, 0, 0); // kPTrans: 5.75
 
-    poseEstimator =
-        new SwerveDrivePoseEstimator(
-            SwerveConstants.swerveKinematics,
-            getGyroYaw(),
-            new SwerveModulePosition[] {
-              mSwerveMods[0].getPosition(),
-              mSwerveMods[1].getPosition(),
-              mSwerveMods[2].getPosition(),
-              mSwerveMods[3].getPosition()
-            },
-            new Pose2d(),
-            VecBuilder.fill(0.5, 0.5, 0.02),
-            VecBuilder.fill(0.10, 0.10, 0.5));
+    poseEstimator = new SwerveDrivePoseEstimator(
+        SwerveConstants.swerveKinematics,
+        getGyroYaw(),
+        new SwerveModulePosition[] {
+            mSwerveMods[0].getPosition(),
+            mSwerveMods[1].getPosition(),
+            mSwerveMods[2].getPosition(),
+            mSwerveMods[3].getPosition()
+        },
+        new Pose2d(),
+        VecBuilder.fill(0.5, 0.5, 0.02),
+        VecBuilder.fill(0.10, 0.10, 0.5));
     // new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.5, 0.5, 0.02), // Current state
     // X, Y,
     // theta.
@@ -194,13 +186,11 @@ public class SwerveDrive extends SubsystemBase implements Loggable {
 
   public void drive(
       Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
-    curChassisSpeeds =
-        fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                translation.getX(), translation.getY(), rotation, getHeading())
-            : new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
-    SwerveModuleState[] swerveModuleStates =
-        SwerveConstants.swerveKinematics.toSwerveModuleStates(curChassisSpeeds);
+    curChassisSpeeds = fieldRelative
+        ? ChassisSpeeds.fromFieldRelativeSpeeds(
+            translation.getX(), translation.getY(), rotation, getHeading())
+        : new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
+    SwerveModuleState[] swerveModuleStates = SwerveConstants.swerveKinematics.toSwerveModuleStates(curChassisSpeeds);
     if (FeatureFlags.kSwerveVelocityLimitingEnabled) {
       SwerveDriveKinematics.desaturateWheelSpeeds(
           swerveModuleStates, SwerveConstants.maxTranslationalVelocity);
@@ -231,13 +221,13 @@ public class SwerveDrive extends SubsystemBase implements Loggable {
   // }
   // }
 
-  @Config(name = "Set Angular Velocity")
+  @Log(key = "Set Angular Velocity")
   public void setAngularVelocity(double radPerSec) {
     System.out.println("setAngularVelocity:" + radPerSec);
     drive(new Translation2d(), radPerSec, true, true);
   }
 
-  @Config(name = "Set Velocity")
+  @Log(key = "Set Velocity")
   public void setVelocity(double velocity) {
     System.out.println("setIntakeVelocity:" + velocity);
     drive(new Translation2d(velocity, 0), 0, false, true);
@@ -307,7 +297,8 @@ public class SwerveDrive extends SubsystemBase implements Loggable {
   public void localize(String networkTablesName) {
     // Check if we're running on the main thread
     // StaticThreadChecker.checkCurrentThread();
-    if (!Limelight.hasValidTargets(networkTablesName)) return;
+    if (!Limelight.hasValidTargets(networkTablesName))
+      return;
     /*
      * From the Limelight docs about using WPILib's Pose
      * Estimator:
@@ -331,8 +322,7 @@ public class SwerveDrive extends SubsystemBase implements Loggable {
     // 0);
 
     double tl = Limelight.getLatency_Pipeline(networkTablesName);
-    Pose2d limelightPose =
-        LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(networkTablesName).pose;
+    Pose2d limelightPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(networkTablesName).pose;
 
     double[] aprilTagLocation = Limelight.getTargetPose_RobotSpace(networkTablesName);
     double aprilTagDistance = new Translation2d(aprilTagLocation[0], aprilTagLocation[2]).getNorm();
@@ -435,7 +425,8 @@ public class SwerveDrive extends SubsystemBase implements Loggable {
   @AutoLogOutput
   // @Log(name = "Pose")
   public Pose2d getPose() {
-    if (Robot.isSimulation()) return simPose;
+    if (Robot.isSimulation())
+      return simPose;
     if (FeatureFlags.kSwerveUseVisionForPoseEst) {
       return poseEstimator.getEstimatedPosition();
     } else {
@@ -445,15 +436,13 @@ public class SwerveDrive extends SubsystemBase implements Loggable {
 
   public void updatePose(Rotation2d gyroYaw, SwerveModulePosition[] swerveModulePositions) {
     if (Robot.isSimulation()) {
-      ChassisSpeeds fieldRelative =
-          ChassisSpeeds.fromRobotRelativeSpeeds(curChassisSpeeds, getGyroYaw());
-      simPose =
-          simPose.transformBy(
-              new Transform2d(
-                  fieldRelative.vxMetersPerSecond * Robot.defaultPeriodSecs,
-                  fieldRelative.vyMetersPerSecond * Robot.defaultPeriodSecs,
-                  Rotation2d.fromRadians(
-                      fieldRelative.omegaRadiansPerSecond * Robot.defaultPeriodSecs)));
+      ChassisSpeeds fieldRelative = ChassisSpeeds.fromRobotRelativeSpeeds(curChassisSpeeds, getGyroYaw());
+      simPose = simPose.transformBy(
+          new Transform2d(
+              fieldRelative.vxMetersPerSecond * Robot.defaultPeriodSecs,
+              fieldRelative.vyMetersPerSecond * Robot.defaultPeriodSecs,
+              Rotation2d.fromRadians(
+                  fieldRelative.omegaRadiansPerSecond * Robot.defaultPeriodSecs)));
     } else if (FeatureFlags.kSwerveUseVisionForPoseEst) {
       poseEstimator.update(getGyroYaw(), getModulePositions());
     } else {
@@ -513,8 +502,10 @@ public class SwerveDrive extends SubsystemBase implements Loggable {
   // @Log(name = "Gyro Yaw")
   public Rotation2d getGyroYaw() {
     Rotation2d yaw;
-    if (Robot.isReal()) yaw = gyroInputs.yawPosition;
-    else yaw = simPose.getRotation();
+    if (Robot.isReal())
+      yaw = gyroInputs.yawPosition;
+    else
+      yaw = simPose.getRotation();
     return yaw;
   }
 
@@ -557,18 +548,15 @@ public class SwerveDrive extends SubsystemBase implements Loggable {
                 translationKP, translationKI, translationKD, 0), // Translation PID constants
             new PIDConstants(rotationKP, rotationKI, rotationKD), // Rotation PID constants
             AutoConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
-            AutoConstants
-                .kDriveBaseRadiusMeters, // Drive base radius in meters. Distance from robot center
+            AutoConstants.kDriveBaseRadiusMeters, // Drive base radius in meters. Distance from robot center
             // to furthest module.
             new ReplanningConfig() // Default path replanning config. See the API for the options
-            // here
-            ),
+        // here
+        ),
         () -> {
           var alliance = DriverStation.getAlliance();
           if (alliance.isPresent()) {
-            return alliance.get()
-                == DriverStation.Alliance
-                    .Blue; // flip path if we are blue alliance since paths were
+            return alliance.get() == DriverStation.Alliance.Blue; // flip path if we are blue alliance since paths were
             // drawn for red
           }
           return false;
@@ -615,8 +603,7 @@ public class SwerveDrive extends SubsystemBase implements Loggable {
         return false;
       }
       // Get the distance to the speaker
-      double distanceToSpeaker =
-          currentPose.getTranslation().getDistance(speakerPose.getTranslation());
+      double distanceToSpeaker = currentPose.getTranslation().getDistance(speakerPose.getTranslation());
 
       // If the distance to the speaker is less than the threshold, return true
       return distanceToSpeaker < AutoConstants.kSpeakerAlignmentThreshold;
