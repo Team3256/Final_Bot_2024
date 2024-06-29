@@ -1,3 +1,7 @@
+> [!NOTE]
+> This repository is archived. See [Team3256/Offseason_Bot_2024](https://github.com/team3256/Offseason_Bot_2024)
+
+
 ### Convention
 * Spotless: ./gradlew spotlessApply
 
