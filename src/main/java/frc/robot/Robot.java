@@ -11,7 +11,6 @@ import com.pathplanner.lib.commands.FollowPathCommand;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import java.util.HashMap;
@@ -30,9 +29,6 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
  * project.
  */
 public class Robot extends LoggedRobot {
-  public static final CTREConfigs ctreConfigs = new CTREConfigs();
-
-  private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
 
@@ -102,7 +98,7 @@ public class Robot extends LoggedRobot {
           String name = command.getName();
           int count = commandCounts.getOrDefault(name, 0) + (active ? 1 : -1);
           commandCounts.put(name, count);
-          // TODO: Switch this to WBLogger
+
           Logger.recordOutput(
               "CommandsUnique/" + name + "_" + Integer.toHexString(command.hashCode()), active);
           Logger.recordOutput("CommandsAll/" + name, count > 0);
@@ -163,9 +159,6 @@ public class Robot extends LoggedRobot {
   @Override
   public void disabledInit() {
     if (Constants.kDisableSubsystemsOnDisableInit) {
-      if (m_robotContainer.swerveDrive != null) {
-        m_robotContainer.swerveDrive.off();
-      }
       if (m_robotContainer.climb != null) {
         m_robotContainer.climb.off();
       }
@@ -194,15 +187,14 @@ public class Robot extends LoggedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_robotContainer.swerveDrive.resetModulesToAbsolute();
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    // m_robotContainer.shootSpeaker();
-
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      System.out.println("hehe auto startie " + Timer.getFPGATimestamp());
-      m_autonomousCommand.schedule();
-    }
+    //    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //    // m_robotContainer.shootSpeaker();
+    //
+    //    // schedule the autonomous command (example)
+    //    if (m_autonomousCommand != null) {
+    //      System.out.println("hehe auto startie " + Timer.getFPGATimestamp());
+    //      m_autonomousCommand.schedule();
+    //    }
   }
 
   /** This function is called periodically during autonomous. */
@@ -215,10 +207,9 @@ public class Robot extends LoggedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
-    m_robotContainer.swerveDrive.resetModulesToAbsolute();
+    //    if (m_autonomousCommand != null) {
+    //      m_autonomousCommand.cancel();
+    //    }
     CommandScheduler.getInstance().cancelAll();
 
     boolean isRedAlliance = true;
