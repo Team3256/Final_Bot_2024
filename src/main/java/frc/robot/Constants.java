@@ -78,6 +78,7 @@ public final class Constants {
 
     public static final boolean kLogFileOnly = false;
     public static final boolean kLazyLogging = false;
+    public static final boolean kTuningMode = false;
   }
 
   public static final class ShuffleboardConstants {

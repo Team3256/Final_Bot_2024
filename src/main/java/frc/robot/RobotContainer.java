@@ -54,7 +54,6 @@ import frc.robot.subsystems.swerve.commands.*;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.utils.CommandQueue;
-import monologue.Annotations.Log;
 import monologue.Logged;
 
 /**
@@ -92,13 +91,10 @@ public class RobotContainer implements Logged {
   public PivotShooter pivotShooter;
   public LED led;
 
-  @Log(key = "Auto Score Speaker")
   private Command autoScoreSpeaker;
 
-  @Log(key = "Auto Score Amp")
   private Command autoScoreAmp;
 
-  @Log(key = "Climb Zero")
   private Command zeroClimb;
 
   /* Auto */

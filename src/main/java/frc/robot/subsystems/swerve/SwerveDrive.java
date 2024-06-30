@@ -39,7 +39,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import monologue.Annotations.Log;
 import monologue.Logged;
 import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
@@ -233,13 +232,13 @@ public class SwerveDrive extends SubsystemBase implements Logged {
   // }
   // }
 
-  @Log(key = "Set Angular Velocity")
+  // @Log(key = "Set Angular Velocity")
   public void setAngularVelocity(double radPerSec) {
     System.out.println("setAngularVelocity:" + radPerSec);
     drive(new Translation2d(), radPerSec, true, true);
   }
 
-  @Log(key = "Set Velocity")
+  // @Log(key = "Set Velocity")
   public void setVelocity(double velocity) {
     System.out.println("setIntakeVelocity:" + velocity);
     drive(new Translation2d(velocity, 0), 0, false, true);
