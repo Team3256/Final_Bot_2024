@@ -34,19 +34,18 @@ import frc.robot.Robot;
 import frc.robot.autos.AutoConstants;
 import frc.robot.limelight.Limelight;
 import frc.robot.limelight.LimelightHelpers;
-import io.github.oblarg.oblog.Loggable;
-import io.github.oblarg.oblog.annotations.Config;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import monologue.Logged;
 import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
-public class SwerveDrive extends SubsystemBase implements Loggable {
+public class SwerveDrive extends SubsystemBase implements Logged {
 
   private static PolynomialSplineFunction distanceToStdDevXTranslation;
   private static PolynomialSplineFunction distanceToStdDevYTranslation;
@@ -233,13 +232,13 @@ public class SwerveDrive extends SubsystemBase implements Loggable {
   // }
   // }
 
-  @Config(name = "Set Angular Velocity")
+  // @Log(key = "Set Angular Velocity")
   public void setAngularVelocity(double radPerSec) {
     System.out.println("setAngularVelocity:" + radPerSec);
     drive(new Translation2d(), radPerSec, true, true);
   }
 
-  @Config(name = "Set Velocity")
+  // @Log(key = "Set Velocity")
   public void setVelocity(double velocity) {
     System.out.println("setIntakeVelocity:" + velocity);
     drive(new Translation2d(velocity, 0), 0, false, true);

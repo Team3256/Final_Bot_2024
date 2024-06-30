@@ -14,7 +14,7 @@ public final class Constants {
 
   /* FeatureFlags that are used in Robot.java */
   public static final boolean kEnableAdvKit = true;
-  public static final boolean kEnableOBlog = false;
+  public static final boolean kEnableMonologue = false;
   public static final boolean kDisableSubsystemsOnDisableInit = true;
 
   // CAREFUL!
@@ -75,6 +75,10 @@ public final class Constants {
     public static final boolean kResetHeadingOnZeroGyro = true;
     public static final boolean kQuadraticDrive = false;
     public static boolean kPivotShooterEnabled = true;
+
+    public static final boolean kLogFileOnly = false;
+    public static final boolean kLazyLogging = false;
+    public static final boolean kTuningMode = false;
   }
 
   public static final class ShuffleboardConstants {

@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
+import monologue.Logged;
+import monologue.Monologue;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
@@ -29,7 +31,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends LoggedRobot {
+public class Robot extends LoggedRobot implements Logged {
   public static final CTREConfigs ctreConfigs = new CTREConfigs();
 
   private Command m_autonomousCommand;
@@ -58,10 +60,11 @@ public class Robot extends LoggedRobot {
     // }
 
     m_robotContainer = new RobotContainer();
-    if (Constants.kEnableOBlog) {
-      io.github.oblarg.oblog.Logger.configureLoggingAndConfig(m_robotContainer, false);
+    if (Constants.kEnableMonologue) {
+      Monologue.setupMonologue(
+          this, "Robot", Constants.FeatureFlags.kLogFileOnly, Constants.FeatureFlags.kLazyLogging);
     } else {
-      System.out.println("OBlog is disabled -- not configuring logging and config.");
+      System.out.println("Monologue is disabled -- not configuring logging and config.");
     }
     // We enable the Logger here to start it directly after RobotContainer. Also
     // fixes
@@ -153,8 +156,9 @@ public class Robot extends LoggedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    if (Constants.kEnableOBlog) {
-      io.github.oblarg.oblog.Logger.updateEntries();
+    if (Constants.kEnableMonologue) {
+      Monologue.setFileOnly(Constants.FeatureFlags.kLogFileOnly);
+      Monologue.updateAll();
     }
     m_robotContainer.periodic(Robot.defaultPeriodSecs);
   }
